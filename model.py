@@ -205,11 +205,8 @@ class EventAttendees(db.Model):
     
 
 
-
-
-
 #ANI, ADJUST THE URI TO THE NAME OF THE DATABASE
-def connect_to_db(flask_app, db_uri="postgresql:///XXXXXXXX", echo=True):
+def connect_to_db(flask_app, db_uri="postgresql:///my_database", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     flask_app.config["SQLALCHEMY_ECHO"] = echo
     flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -222,7 +219,6 @@ def connect_to_db(flask_app, db_uri="postgresql:///XXXXXXXX", echo=True):
 
 if __name__ == "__main__":
     from server import app
-
     connect_to_db(app)
 
     # Call connect_to_db(app, echo=False) if your program output gets
