@@ -23,10 +23,8 @@ class User(db.Model):
     avatarmedium = db.Column(db.String)
     profileurl = db.Column(db.String)
 
-    # friends = db.relationship('Friend', back_populates="users")
-    # TODO REVIEW
     library = db.relationship('UserLibrary', back_populates="user")
-    # User.library => [<UserLibrary>, <UserLibrary>]
+
 
     def __repr__(self):
         return f'<User id={self.id} personaname={self.personaname} steamid={self.steamid}>'
@@ -44,11 +42,6 @@ class Friend(db.Model):
 
     primary_user_steamid = db.Column(db.Integer, db.ForeignKey('users.steamid'), nullable=False)
     friend_steamid = db.Column(db.Integer, nullable=False)
-    
-    # user1 = db.Column(db.Integer, db.ForeignKey('users.steamid'), nullable=False)
-    # user2 = db.Column(db.Integer, db.ForeignKey('users.steamid'), nullable=False)
-
-    # users = db.relationship('User', back_populates="friends")
 
     def __repr__(self):
         return f'<Friend id={self.id} user1={self.primary_user_steamid} user2={self.friend_steamid}>'
@@ -64,16 +57,10 @@ class UserLibrary(db.Model): # middle table UserGame ==> tying a user/steamid to
                         autoincrement=True,
                         primary_key=True)
     steamid = db.Column(db.String, db.ForeignKey('users.steamid'), nullable=False, unique=True)
-    appid = db.Column(db.Integer)
     name = db.Column(db.String, db.ForeignKey('games.name'), nullable=False)
-    img_icon_url = db.Column(db.String)
-    #this info isn't given, I need to make it like: http://store.steampowered.com/app/{appid}/{name}/
-    #ex: https://store.steampowered.com/app/359550/Tom_Clancys_Rainbow_Six_Siege/
-    # for names with whitespace, just replace with _
-    game_url = db.Column(db.String)
 
-    # TODO REVIEW
     user = db.relationship('User', back_populates="library")
+    game = db.relationship('Game', back_populates="library")
 
     def __repr__(self):
         return f'<UserLibrary id={self.id} steamid={self.steamid}>'
@@ -86,17 +73,21 @@ class Game(db.Model):
     __tablename__ = "games"
 
     id = db.Column(db.Integer, primary_key=True, unique=True)
-    # TODO - game can have multiple genres, multiple game modes
-    game_modes = db.Column(db.Integer, db.ForeignKey('game_modes.name'))
-    genres = db.Column(db.Integer, db.ForeignKey('genres.name'))
-    #########
+    game_modes = db.Column(db.String) # '1,24,3,7'
+    genres = db.Column(db.String) # game = Game.query.get(10) ==> game.genres ==> '1,24,3,7' ==> GameGenres.query.get(int('1')) ==> game genre record .name, .id
 
     name = db.Column(db.String)
     summary = db.Column(db.String)
 
-    # TODO REVIEW ==> review the db.relationship? .game_genres?
+    appid = db.Column(db.Integer)
+    # name = db.Column(db.String, db.ForeignKey('games.name'), nullable=False)
+    img_icon_url = db.Column(db.String)
+    #this info isn't given, I need to make it like: http://store.steampowered.com/app/{appid}/{name}/
+    #ex: https://store.steampowered.com/app/359550/Tom_Clancys_Rainbow_Six_Siege/
+    # for names with whitespace, just replace with _
+    # game_url = db.Column(db.String)
 
-    # TODO - maybe add .wishlists ?
+    library = db.relationship('UserLibrary', back_populates="game")
 
     
     def __repr__(self):
@@ -171,9 +162,6 @@ class GroupWishlist(db.Model):
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'), nullable=False)
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
 
-    # TODO - maybe add .game
-    # TODO - maybe add .group
-
     def __repr__(self):
         return f'<Class id={self.id} game_id={self.game_id} group_id={self.group_id}>'
     
@@ -192,14 +180,16 @@ class Event(db.Model):
     if_game_selected = db.Column(db.Boolean)
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'), nullable=True)
 
+    attendees = db.relationship('EventAttendees', back_populates="event")
+
     def __repr__(self):
         return f'<Class id={self.id} description={self.description}>'
     
 
-class EventAttendance(db.Model):
+class EventAttendees(db.Model):
     """users who will or won't join the playtime"""
 
-    __tablename__ = "event_attendance"
+    __tablename__ = "event_attendees"
 
     id = db.Column(db.Integer,
                         autoincrement=True,
@@ -208,6 +198,7 @@ class EventAttendance(db.Model):
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'))
     is_attending = db.Column(db.Boolean)
 
+    event = db.relationship('Event', back_populates="attendees")
 
     def __repr__(self):
         return f'<Class id={self.id} event_id={self.event_id}>'
