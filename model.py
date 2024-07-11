@@ -23,7 +23,10 @@ class User(db.Model):
     avatarmedium = db.Column(db.String)
     profileurl = db.Column(db.String)
 
-    friends = db.relationship('Friend', back_populates="users")
+    # friends = db.relationship('Friend', back_populates="users")
+    # TODO REVIEW
+    library = db.relationship('UserLibrary', back_populates="user")
+    # User.library => [<UserLibrary>, <UserLibrary>]
 
     def __repr__(self):
         return f'<User id={self.id} personaname={self.personaname} steamid={self.steamid}>'
@@ -38,17 +41,21 @@ class Friend(db.Model):
     id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    user1 = db.Column(db.Integer, db.ForeignKey('users.steamid'), nullable=False)
-    user2 = db.Column(db.Integer, db.ForeignKey('users.steamid'), nullable=False)
+
+    primary_user_steamid = db.Column(db.Integer, db.ForeignKey('users.steamid'), nullable=False)
+    friend_steamid = db.Column(db.Integer, nullable=False)
+    
+    # user1 = db.Column(db.Integer, db.ForeignKey('users.steamid'), nullable=False)
+    # user2 = db.Column(db.Integer, db.ForeignKey('users.steamid'), nullable=False)
 
     # users = db.relationship('User', back_populates="friends")
 
     def __repr__(self):
-        return f'<Friend id={self.id} user1={self.user1} user2={self.user2}>'
+        return f'<Friend id={self.id} user1={self.primary_user_steamid} user2={self.friend_steamid}>'
     
 
 #Info from Steam
-class UserLibrary(db.Model):
+class UserLibrary(db.Model): # middle table UserGame ==> tying a user/steamid to a game name/id
     """A dictionary of games"""
 
     __tablename__ = "user_library"
@@ -60,10 +67,13 @@ class UserLibrary(db.Model):
     appid = db.Column(db.Integer)
     name = db.Column(db.String, db.ForeignKey('games.name'), nullable=False)
     img_icon_url = db.Column(db.String)
-    #this info isn't given, I need to make it like: http://media.steampowered.com/steamcommunity/public/images/apps/{appid}/{hash}.jpg
+    #this info isn't given, I need to make it like: http://store.steampowered.com/app/{appid}/{name}/
     #ex: https://store.steampowered.com/app/359550/Tom_Clancys_Rainbow_Six_Siege/
-    #for names with whitespace, just replace with _
+    # for names with whitespace, just replace with _
     game_url = db.Column(db.String)
+
+    # TODO REVIEW
+    user = db.relationship('User', back_populates="library")
 
     def __repr__(self):
         return f'<UserLibrary id={self.id} steamid={self.steamid}>'
@@ -76,10 +86,17 @@ class Game(db.Model):
     __tablename__ = "games"
 
     id = db.Column(db.Integer, primary_key=True, unique=True)
+    # TODO - game can have multiple genres, multiple game modes
     game_modes = db.Column(db.Integer, db.ForeignKey('game_modes.name'))
     genres = db.Column(db.Integer, db.ForeignKey('genres.name'))
+    #########
+
     name = db.Column(db.String)
     summary = db.Column(db.String)
+
+    # TODO REVIEW ==> review the db.relationship? .game_genres?
+
+    # TODO - maybe add .wishlists ?
 
     
     def __repr__(self):
@@ -110,6 +127,93 @@ class Genres(db.Model):
 
     def __repr__(self):
         return f'<Genres id={self.id} name={self.name}>'
+
+
+
+class UserGroups(db.Model):
+    """Associate table for User and Groups"""
+
+    __tablename__ = "usergroups"
+
+    id = db.Column(db.Integer,
+                        autoincrement=True,
+                        primary_key=True)
+    steamid = db.Column(db.Integer, db.ForeignKey('users.steamid'))
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
+
+    def __repr__(self):
+        return f'<Class id={self.id} user_id={self.steamid} group_id={self.group_id}>'
+    
+
+class Groups(db.Model):
+    """a group of users"""
+
+    __tablename__ = "groups"
+
+    id = db.Column(db.Integer,
+                        autoincrement=True,
+                        primary_key=True)
+    group_name = db.Column(db.String)
+    group_img = db.Column(db.String)
+
+    def __repr__(self):
+        return f'<Class id={self.id} group_name={self.group_name}>'
+    
+
+class GroupWishlist(db.Model):
+    """a list of games associated with a group"""
+
+    __tablename__ = "group_wishlists"
+
+    id = db.Column(db.Integer,
+                        autoincrement=True,
+                        primary_key=True)
+    game_id = db.Column(db.Integer, db.ForeignKey('games.id'), nullable=False)
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
+
+    # TODO - maybe add .game
+    # TODO - maybe add .group
+
+    def __repr__(self):
+        return f'<Class id={self.id} game_id={self.game_id} group_id={self.group_id}>'
+    
+
+class Event(db.Model):
+    """A scheduled playtime together"""
+
+    __tablename__ = "events"
+
+    id = db.Column(db.Integer,
+                        autoincrement=True,
+                        primary_key=True)
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
+    proposed_datetime = db.Column(db.DateTime)
+    description = db.Column(db.String)
+    if_game_selected = db.Column(db.Boolean)
+    game_id = db.Column(db.Integer, db.ForeignKey('games.id'), nullable=True)
+
+    def __repr__(self):
+        return f'<Class id={self.id} description={self.description}>'
+    
+
+class EventAttendance(db.Model):
+    """users who will or won't join the playtime"""
+
+    __tablename__ = "event_attendance"
+
+    id = db.Column(db.Integer,
+                        autoincrement=True,
+                        primary_key=True)
+    steamid = db.Column(db.Integer, db.ForeignKey('users.steamid'))
+    event_id = db.Column(db.Integer, db.ForeignKey('events.id'))
+    is_attending = db.Column(db.Boolean)
+
+
+    def __repr__(self):
+        return f'<Class id={self.id} event_id={self.event_id}>'
+    
+
+
 
 
 
