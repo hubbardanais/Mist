@@ -40,8 +40,8 @@ class Friend(db.Model):
                         autoincrement=True,
                         primary_key=True)
 
-    primary_user_steamid = db.Column(db.Integer, db.ForeignKey('users.steamid'), nullable=False)
-    friend_steamid = db.Column(db.Integer, nullable=False)
+    primary_user_steamid = db.Column(db.String, db.ForeignKey('users.steamid'), nullable=False)
+    friend_steamid = db.Column(db.String, nullable=False)
 
     def __repr__(self):
         return f'<Friend id={self.id} user1={self.primary_user_steamid} user2={self.friend_steamid}>'
@@ -76,7 +76,7 @@ class Game(db.Model):
     game_modes = db.Column(db.String) # '1,24,3,7'
     genres = db.Column(db.String) # game = Game.query.get(10) ==> game.genres ==> '1,24,3,7' ==> GameGenres.query.get(int('1')) ==> game genre record .name, .id
 
-    name = db.Column(db.String)
+    name = db.Column(db.String, unique=True)
     summary = db.Column(db.String)
 
     appid = db.Column(db.Integer)
@@ -129,7 +129,7 @@ class UserGroups(db.Model):
     id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    steamid = db.Column(db.Integer, db.ForeignKey('users.steamid'))
+    steamid = db.Column(db.String, db.ForeignKey('users.steamid'))
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
 
     def __repr__(self):
@@ -194,7 +194,7 @@ class EventAttendees(db.Model):
     id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    steamid = db.Column(db.Integer, db.ForeignKey('users.steamid'))
+    steamid = db.Column(db.String, db.ForeignKey('users.steamid'))
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'))
     is_attending = db.Column(db.Boolean)
 
