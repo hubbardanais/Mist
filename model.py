@@ -85,7 +85,7 @@ class Game(db.Model):
     #this info isn't given, I need to make it like: http://store.steampowered.com/app/{appid}/{name}/
     #ex: https://store.steampowered.com/app/359550/Tom_Clancys_Rainbow_Six_Siege/
     # for names with whitespace, just replace with _
-    # game_url = db.Column(db.String)
+    game_url = db.Column(db.String)
 
     library = db.relationship('UserLibrary', back_populates="game")
 
