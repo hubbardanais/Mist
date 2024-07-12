@@ -19,6 +19,7 @@ def create_user(email, password, steamid, personaname, avatar=None,
 
     return user
 
+
 def create_friend(primary_user_steamid, friend_steamid):
     """create and return a friendship"""
 
@@ -63,7 +64,7 @@ def create_game_modes(id, name):
 def create_genres(id, name):
     """create and return a comma seperated string of game modes"""
 
-    genres = GameModes(id=id, name=name)
+    genres = Genres(id=id, name=name)
 
     return genres
 
