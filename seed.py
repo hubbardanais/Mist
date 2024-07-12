@@ -8,18 +8,18 @@ import crud
 from model import connect_to_db, db
 from server import app
 
-os.system('dropdb ratings')
-os.system('createdb ratings')
+os.system('dropdb my_database')
+os.system('createdb my_database')
 
 connect_to_db(app)
 app.app_context().push()
 db.create_all()
 
 #open json files for game_Modes and genres
-crud.create_game_modes(id, name)
+# crud.create_game_modes(id, name)
 
 
-crud.create_genres(id, name)
+# crud.create_genres(id, name)
 
 
 #make one/two test info for everything
@@ -78,18 +78,15 @@ barry_destiny_2 = crud.create_user_library(steamid="76561198244990238", name="De
 barry_stardew = crud.create_user_library(steamid="76561198244990238", name="Stardew Valley")
 
 
+destineers = crud.create_groups(group_name="Destineers", group_img="irondestineer.jpeg")
 
-crud.create_user_groups(steamid, group_id)
+ani_destineers = crud.create_user_groups(steamid="76561199002632683", group_id=1)
 
-
-crud.create_groups(group_name, group_img)
-
-
-crud.create_group_wishlist(game_id, group_id)
+# crud.create_group_wishlist(game_id, group_id)
 
 
-crud.create_event(group_id, proposed_datetime, description, 
-                 if_game_selected=False, game_id=None)
+# crud.create_event(group_id, proposed_datetime, description, 
+#                  if_game_selected=False, game_id=None)
 
-crud.create_event_attendees(steamid, event_id, is_attending)
+# crud.create_event_attendees(steamid, event_id, is_attending)
  

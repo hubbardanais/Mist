@@ -56,7 +56,7 @@ class UserLibrary(db.Model): # middle table UserGame ==> tying a user/steamid to
     id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    steamid = db.Column(db.String, db.ForeignKey('users.steamid'), nullable=False, unique=True)
+    steamid = db.Column(db.String, db.ForeignKey('users.steamid'), nullable=False)
     name = db.Column(db.String, db.ForeignKey('games.name'), nullable=False)
 
     user = db.relationship('User', back_populates="library")
