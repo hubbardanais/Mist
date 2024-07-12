@@ -4,6 +4,13 @@ from model import db, User, Friend, UserLibrary, Game, GameModes, Genres, UserGr
 
 
 # Functions start here!
+
+def add_and_commit(inst):
+    """a faster way to add and commit everything to the db"""
+    db.session.add(inst)
+    db.session.commit()
+
+
 def create_user(email, password, steamid, personaname, avatar=None,
                  avatarmedium=None, profileurl=None):
     """Create and return a new user."""
@@ -16,7 +23,8 @@ def create_user(email, password, steamid, personaname, avatar=None,
                 avatarmedium=avatarmedium,
                 profileurl=profileurl
                 )
-
+    
+    add_and_commit(user)
     return user
 
 
@@ -27,6 +35,7 @@ def create_friend(primary_user_steamid, friend_steamid):
                     friend_steamid=friend_steamid
                     )
     
+    add_and_commit(friend)
     return friend
 
 def create_game(id, game_modes, genres, name, summary=None, appid=None,
@@ -43,6 +52,7 @@ def create_game(id, game_modes, genres, name, summary=None, appid=None,
                 game_url=game_url
                 )
     
+    add_and_commit(game)
     return game
 
 
@@ -52,6 +62,7 @@ def create_user_library(steamid, name):
     user_library = UserLibrary(steamid=steamid,
                                name=name)
 
+    add_and_commit(user_library)
     return user_library
 
 def create_game_modes(id, name):
@@ -59,6 +70,7 @@ def create_game_modes(id, name):
 
     game_modes = GameModes(id=id, name=name)
 
+    add_and_commit(game_modes)
     return game_modes
 
 def create_genres(id, name):
@@ -66,6 +78,7 @@ def create_genres(id, name):
 
     genres = Genres(id=id, name=name)
 
+    add_and_commit(genres)
     return genres
 
 def create_user_groups(steamid, group_id):
@@ -73,6 +86,7 @@ def create_user_groups(steamid, group_id):
 
     user_groups = UserGroups(steamid=steamid, group_id=group_id)
 
+    add_and_commit(user_groups)
     return user_groups
 
 def create_groups(group_name, group_img):
@@ -81,6 +95,7 @@ def create_groups(group_name, group_img):
     group = Groups(group_name=group_name,
                    group_img=group_img)
 
+    add_and_commit(group)
     return group
 
 def create_group_wishlist(game_id, group_id):
@@ -88,6 +103,7 @@ def create_group_wishlist(game_id, group_id):
 
     group_wishlist = GroupWishlist(game_id=game_id,group_id=group_id)
 
+    add_and_commit(group_wishlist)
     return group_wishlist
 
 def create_event(group_id, proposed_datetime, description, 
@@ -100,6 +116,7 @@ def create_event(group_id, proposed_datetime, description,
                   if_game_selected=if_game_selected,
                   game_id=game_id)
 
+    add_and_commit(event)
     return event
 
 def create_event_attendees(steamid, event_id, is_attending):
@@ -110,6 +127,7 @@ def create_event_attendees(steamid, event_id, is_attending):
                                      is_attending=is_attending,
                                      )
 
+    add_and_commit(event_attendees)
     return event_attendees
 
 
