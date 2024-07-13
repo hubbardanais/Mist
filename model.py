@@ -124,7 +124,7 @@ class Genres(db.Model):
 class UserGroups(db.Model):
     """Associate table for User and Groups"""
 
-    __tablename__ = "usergroups"
+    __tablename__ = "user_groups"
 
     id = db.Column(db.Integer,
                         autoincrement=True,

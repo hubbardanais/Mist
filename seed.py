@@ -66,6 +66,10 @@ cyberpunk_2077 = crud.create_game(id=1877, game_modes="1", genres="5, 12, 31", n
                            img_icon_url="http://media.steampowered.com/steamcommunity/public/images/apps/1091500/15ba5f5437473a1b4d628b3b87223e84f4cfdf38.jpg", 
                            game_url="https://store.steampowered.com/app/1091500/Cyberpunk_2077/")
 
+laika = crud.create_game(id=146088, game_modes="1", genres="8, 31, 32, 33", name="Laika: Aged Through Blood", 
+                           summary="Laika: Aged Through Blood is a western-inspired motorvania set in a post-apocalyptic desert. It is the story about a tribe oppressed by occupant forces, and the personal story of a mother coyote warrior who descends on an endless path of vengeance to take back what her people lost.",
+                           )
+
 
 ani_stardew = crud.create_user_library(steamid="76561199002632683", name="Stardew Valley")
 ani_destiny_2 = crud.create_user_library(steamid="76561199002632683", name="Destiny 2")
@@ -81,8 +85,10 @@ barry_stardew = crud.create_user_library(steamid="76561198244990238", name="Star
 destineers = crud.create_groups(group_name="Destineers", group_img="irondestineer.jpeg")
 
 ani_destineers = crud.create_user_groups(steamid="76561199002632683", group_id=1)
+izzie_destineers = crud.create_user_groups(steamid="76561198043449106", group_id=1)
+barry_destineers = crud.create_user_groups(steamid="76561198244990238", group_id=1)
 
-# crud.create_group_wishlist(game_id, group_id)
+destineers_laika = crud.create_group_wishlist(game_id=146088, group_id=1)
 
 
 # crud.create_event(group_id, proposed_datetime, description, 
