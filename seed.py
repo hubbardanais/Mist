@@ -16,14 +16,14 @@ app.app_context().push()
 db.create_all()
 
 #open json files for game_Modes and genres
-with open('static/data/game-modes.json') as gm:
+with open('data/game-modes.json') as gm:
     game_modes = json.loads(gm.read())
 
 for game_mode in game_modes:
     crud.create_game_modes(id=game_mode["id"], name=game_mode["name"])
 
 
-with open('static/data/genres.json') as g:
+with open('data/genres.json') as g:
     genres = json.loads(g.read())
 
 for genre in genres:
