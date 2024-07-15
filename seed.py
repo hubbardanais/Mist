@@ -16,10 +16,19 @@ app.app_context().push()
 db.create_all()
 
 #open json files for game_Modes and genres
-# crud.create_game_modes(id, name)
+with open('static/data/game-modes.json') as gm:
+    game_modes = json.loads(gm.read())
+
+for game_mode in game_modes:
+    crud.create_game_modes(id=game_mode["id"], name=game_mode["name"])
 
 
-# crud.create_genres(id, name)
+with open('static/data/genres.json') as g:
+    genres = json.loads(g.read())
+
+for genre in genres:
+    crud.create_genres(id=genre["id"], name=genre["name"])
+
 
 
 #make one/two test info for everything
@@ -91,8 +100,9 @@ barry_destineers = crud.create_user_groups(steamid="76561198244990238", group_id
 destineers_laika = crud.create_group_wishlist(game_id=146088, group_id=1)
 
 
-# crud.create_event(group_id, proposed_datetime, description, 
-#                  if_game_selected=False, game_id=None)
+test_event = crud.create_event(group_id=1, proposed_datetime="2024-08-12 15:30", description="a test event to play together", 
+                 if_game_selected=True, game_id=25657)
 
-# crud.create_event_attendees(steamid, event_id, is_attending)
+test_attendees_ani = crud.create_event_attendees(steamid="76561199002632683", event_id=1, is_attending=True)
+test_attendees_izzie = crud.create_event_attendees(steamid="76561198043449106", event_id=1, is_attending=False)
  

@@ -1,5 +1,7 @@
 """CRUD operations."""
 
+from datetime import datetime
+
 from model import db, User, Friend, UserLibrary, Game, GameModes, Genres, UserGroups, Groups, GroupWishlist, Event, EventAttendees, connect_to_db
 
 
@@ -110,8 +112,11 @@ def create_event(group_id, proposed_datetime, description,
                  if_game_selected=False, game_id=None):
     """create and return an event"""
 
+    format_string = "%Y-%m-%d %H:%M"
+    datetime_object = datetime.strptime(proposed_datetime, format_string)
+
     event = Event(group_id=group_id,
-                  proposed_datetime=proposed_datetime,
+                  proposed_datetime=datetime_object,
                   description=description,
                   if_game_selected=if_game_selected,
                   game_id=game_id)
