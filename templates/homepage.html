@@ -2,7 +2,9 @@
 {% block title %}Mist{% endblock %}
 
 {% block body %}
-  <h1>Welcome!</h1>
+  {% if session %}
+  <h1>Welcome {{ session['personaname'] }}!</h1>
+  {% endif %}
 
   <h2>Navigation</h2>
   <ul>

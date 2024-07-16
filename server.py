@@ -45,7 +45,8 @@ def log_in():
     else:
         # Log in user by storing the user's email in session
         session['steamid'] = user.steamid
-        flash(f"Welcome back, {user.personaname}!")
+        session['personaname'] = user.personaname
+        # flash(f"Welcome back, {user.personaname}!")
         return redirect('/')
 
 
