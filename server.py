@@ -19,6 +19,26 @@ def homepage():
 
     return render_template('homepage.html')
 
+@app.route('/login', methods=['POST'])
+def log_in():
+    """Log user into apps"""
+
+    #email vs. steam id as the key in session?
+    # email = request.form['email']
+    steamid = request.form['steamid']
+    password = request.form['password']
+
+    if password == 'let-me-in':   # FIXME
+        session['current_user'] = steamid
+        flash(f'Logged in as {steamid}')
+        return redirect('/')
+
+    else:
+        flash('Wrong password!')
+        return redirect('/login')
+
+    # return render_template('login.html')
+
 
 
 if __name__ == "__main__":
