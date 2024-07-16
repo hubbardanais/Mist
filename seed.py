@@ -45,7 +45,7 @@ izzie = crud.create_user(email="izzietest@test.com", password="passwordo",
                 profileurl="https://steamcommunity.com/id/m0y0/")
 
 barry = crud.create_user(email="barrytest@test.com", password="passwordi", 
-                steamid="76561198244990238", personaname="Villainous aesthetic",
+                steamid="76561198244990238", personaname="Villainous Aesthetic",
                 avatar="https://avatars.steamstatic.com/6330c0531c83e7262767b52a29728f6801bcc289.jpg",
                 avatarmedium="https://avatars.steamstatic.com/6330c0531c83e7262767b52a29728f6801bcc289_medium.jpg", 
                 profileurl="https://steamcommunity.com/profiles/76561198244990238/")

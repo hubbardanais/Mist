@@ -17,27 +17,36 @@ app.jinja_env.undefined = StrictUndefined
 def homepage():
     """View homepage."""
 
-    return render_template('homepage.html')
+    if 'steamid' in session:
+        return render_template('homepage.html')
+    else:
+        return redirect('/login')
+
+
+@app.route("/login", methods=["GET"])
+def show_login():
+    """Show login form."""
+
+    return render_template("login.html")
+    
 
 @app.route('/login', methods=['POST'])
 def log_in():
     """Log user into apps"""
 
-    #email vs. steam id as the key in session?
-    # email = request.form['email']
-    steamid = request.form['steamid']
-    password = request.form['password']
+    steamid = request.form.get('steamid')
+    password = request.form.get('password')
 
-    if password == 'let-me-in':   # FIXME
-        session['current_user'] = steamid
-        flash(f'Logged in as {steamid}')
-        return redirect('/')
+    user = crud.get_user_by_steamid(steamid)
 
+    if not user or user.password != password:
+        flash("The email or password you entered was incorrect.")
+        return render_template('/login.html')
     else:
-        flash('Wrong password!')
-        return redirect('/login')
-
-    # return render_template('login.html')
+        # Log in user by storing the user's email in session
+        session['steamid'] = user.steamid
+        flash(f"Welcome back, {user.personaname}!")
+        return redirect('/')
 
 
 

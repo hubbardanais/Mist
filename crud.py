@@ -29,6 +29,11 @@ def create_user(email, password, steamid, personaname, avatar=None,
     add_and_commit(user)
     return user
 
+def get_user_by_steamid(steamid):
+    """return a user by steamid"""
+
+    return User.query.filter(User.steamid == steamid).first()
+
 
 def create_friend(primary_user_steamid, friend_steamid):
     """create and return a friendship"""
