@@ -34,6 +34,11 @@ def get_user_by_steamid(steamid):
 
     return User.query.filter(User.steamid == steamid).first()
 
+def get_user_by_email(email):
+    """return a user by email"""
+
+    return User.query.filter(User.email == email).first()
+
 
 def create_friend(primary_user_steamid, friend_steamid):
     """create and return a friendship"""

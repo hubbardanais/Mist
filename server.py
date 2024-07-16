@@ -50,6 +50,39 @@ def log_in():
         return redirect('/')
 
 
+@app.route("/create_account", methods=["GET"])
+def show_create_account():
+    """Show create account form."""
+
+    return render_template("createaccount.html")
+
+
+@app.route("/create_account", methods=["POST"])
+def register_user():
+    """Create a new user."""
+
+    steamid = request.form.get("steamid")
+    email = request.form.get("email")
+    password = request.form.get("password")
+    print(email)
+    print("=================================")
+
+    user_email = crud.get_user_by_email(email)
+    user_steamid = crud.get_user_by_steamid(steamid)
+    print(user_email)
+    print("=================================")
+
+    if user_email:
+        flash("Cannot create an account with that email. Try again.")
+    elif user_steamid:
+        flash("Cannot create an account with that SteamID. Try again.")
+    else:
+        crud.create_user(email=email, password=password, steamid=steamid, personaname="Test User")
+        flash("Account created! Please log in.")
+        return redirect("/")
+
+    return render_template("createaccount.html")
+
 
 if __name__ == "__main__":
     connect_to_db(app)
