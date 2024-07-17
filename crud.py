@@ -171,6 +171,26 @@ def create_event_attendees(steamid, event_id, is_attending):
 
 
 #create functions to create img urls and steam game urls
+def create_img_url(appid, img_icon_url):
+    """create and return an img url for a game with steam's info"""
+
+    #appid is an int, img_icon_url is a str
+    return f"http://media.steampowered.com/steamcommunity/public/images/apps/{appid}/{img_icon_url}.jpg"
+
+
+def create_steam_game_urls(appid, name):
+    """create and return a steam game url"""
+
+    name_with_underline = ""
+
+    for char in name:
+        if char == " ":
+            name_with_underline += "_"
+        else:
+            name_with_underline += char
+    
+    return f"http://store.steampowered.com/app/{appid}/{name_with_underline}/"
+
 
 
 if __name__ == '__main__':
