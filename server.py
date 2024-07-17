@@ -64,13 +64,10 @@ def register_user():
     steamid = request.form.get("steamid")
     email = request.form.get("email")
     password = request.form.get("password")
-    print(email)
-    print("=================================")
 
     user_email = crud.get_user_by_email(email)
     user_steamid = crud.get_user_by_steamid(steamid)
-    print(user_email)
-    print("=================================")
+
 
     if user_email:
         flash("Cannot create an account with that email. Try again.")
@@ -82,6 +79,14 @@ def register_user():
         return redirect("/")
 
     return render_template("createaccount.html")
+
+@app.route("/log_out")
+def log_out():
+    """Remove user from session"""
+
+    session.clear()
+
+    return redirect('/')
 
 
 if __name__ == "__main__":
