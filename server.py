@@ -88,6 +88,19 @@ def log_out():
 
     return redirect('/')
 
+@app.route("/user/<steamid>")
+def user_profile(steamid):
+    """view user profile"""
+
+    user = crud.get_user_by_steamid(steamid)
+
+    return render_template('user_profile.html', user=user)
+
+# @app.route("/X")
+# def X():
+#     """"""
+
+#     return
 
 if __name__ == "__main__":
     connect_to_db(app)
