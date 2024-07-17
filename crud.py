@@ -87,6 +87,14 @@ def create_user_library(steamid, name):
     return user_library
 
 
+def get_all_user_games_by_steamid(steamid):
+    """return list of all owned games from user"""
+
+    user_games = UserLibrary.query.filter(UserLibrary.steamid == steamid).all()
+
+    return user_games
+
+
 def create_game_modes(id, name):
     """create and return a comma seperated string of game modes"""
 
@@ -162,6 +170,7 @@ def create_event_attendees(steamid, event_id, is_attending):
     return event_attendees
 
 
+#create functions to create img urls and steam game urls
 
 
 if __name__ == '__main__':

@@ -80,7 +80,7 @@ class Game(db.Model):
     summary = db.Column(db.String)
 
     appid = db.Column(db.Integer)
-    # name = db.Column(db.String, db.ForeignKey('games.name'), nullable=False)
+    # to make img url: http://media.steampowered.com/steamcommunity/public/images/apps/{appid}/{hash}.jpg
     img_icon_url = db.Column(db.String)
     #this info isn't given, I need to make it like: http://store.steampowered.com/app/{appid}/{name}/
     #ex: https://store.steampowered.com/app/359550/Tom_Clancys_Rainbow_Six_Siege/

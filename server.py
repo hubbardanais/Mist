@@ -99,6 +99,15 @@ def user_profile(personaname):
     return render_template('user_profile.html', user=user)
 
 
+@app.route("/games")
+def game_page():
+    """view games"""
+
+    user_library = crud.get_all_user_games_by_steamid(session['steamid'])
+
+    return render_template('games.html', user_library=user_library)
+
+
 # @app.route("/X")
 # def X():
 #     """"""

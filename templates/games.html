@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Games{% endblock %}
+
+{% block body %}
+
+
+{% for user_game in user_library %}
+    <h3><img class="avatar" src="{{ user_game.game.img_icon_url }}">   {{ user_game.game.name }}</h3>
+    <p>{{ user_game.game.summary }}</p>
+    <a href="{{ user_game.game.game_url }}">View on Steam</a>
+    <br><br>
+    
+
+{% endfor %}
+
+{% endblock %}
