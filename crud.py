@@ -29,15 +29,23 @@ def create_user(email, password, steamid, personaname, avatar=None,
     add_and_commit(user)
     return user
 
+
 def get_user_by_steamid(steamid):
     """return a user by steamid"""
 
     return User.query.filter(User.steamid == steamid).first()
 
+
 def get_user_by_email(email):
     """return a user by email"""
 
     return User.query.filter(User.email == email).first()
+
+
+def get_user_by_personaname(personaname):
+    """return a user by personaname"""
+
+    return User.query.filter(User.personaname == personaname).first()
 
 
 def create_friend(primary_user_steamid, friend_steamid):
@@ -49,6 +57,7 @@ def create_friend(primary_user_steamid, friend_steamid):
     
     add_and_commit(friend)
     return friend
+
 
 def create_game(id, game_modes, genres, name, summary=None, appid=None,
                 img_icon_url=None, game_url=None):
@@ -77,6 +86,7 @@ def create_user_library(steamid, name):
     add_and_commit(user_library)
     return user_library
 
+
 def create_game_modes(id, name):
     """create and return a comma seperated string of game modes"""
 
@@ -84,6 +94,7 @@ def create_game_modes(id, name):
 
     add_and_commit(game_modes)
     return game_modes
+
 
 def create_genres(id, name):
     """create and return a comma seperated string of game modes"""
@@ -93,6 +104,7 @@ def create_genres(id, name):
     add_and_commit(genres)
     return genres
 
+
 def create_user_groups(steamid, group_id):
     """create and return an association between a user and a group"""
 
@@ -100,6 +112,7 @@ def create_user_groups(steamid, group_id):
 
     add_and_commit(user_groups)
     return user_groups
+
 
 def create_groups(group_name, group_img):
     """create and return a group"""
@@ -110,6 +123,7 @@ def create_groups(group_name, group_img):
     add_and_commit(group)
     return group
 
+
 def create_group_wishlist(game_id, group_id):
     """create and return a games associated with a group"""
 
@@ -117,6 +131,7 @@ def create_group_wishlist(game_id, group_id):
 
     add_and_commit(group_wishlist)
     return group_wishlist
+
 
 def create_event(group_id, proposed_datetime, description, 
                  if_game_selected=False, game_id=None):
@@ -133,6 +148,7 @@ def create_event(group_id, proposed_datetime, description,
 
     add_and_commit(event)
     return event
+
 
 def create_event_attendees(steamid, event_id, is_attending):
     """create and return a user associated with an event"""

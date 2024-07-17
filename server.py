@@ -80,6 +80,7 @@ def register_user():
 
     return render_template("createaccount.html")
 
+
 @app.route("/log_out")
 def log_out():
     """Remove user from session"""
@@ -88,13 +89,15 @@ def log_out():
 
     return redirect('/')
 
-@app.route("/user/<steamid>")
-def user_profile(steamid):
+
+@app.route("/user/<personaname>")
+def user_profile(personaname):
     """view user profile"""
 
-    user = crud.get_user_by_steamid(steamid)
+    user = crud.get_user_by_personaname(personaname)
 
     return render_template('user_profile.html', user=user)
+
 
 # @app.route("/X")
 # def X():
