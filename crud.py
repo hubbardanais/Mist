@@ -113,6 +113,25 @@ def create_genres(id, name):
     return genres
 
 
+def get_genre(id):
+    """return genre by id"""
+
+    genre = Genres.query.filter(Genres.id == id).first()
+
+    return genre
+
+
+def convert_genre_str_to_list(genres_str):
+    """take a string of a list of genres, and turn it into a list of ints"""
+
+    split_string = genres_str.split(", ")
+
+    for i, genre in enumerate(split_string):
+        split_string[i] = int(genre)
+
+    return split_string
+
+
 def create_user_groups(steamid, group_id):
     """create and return an association between a user and a group"""
 

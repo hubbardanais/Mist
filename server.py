@@ -104,6 +104,13 @@ def game_page():
     """view games"""
 
     user_library = crud.get_all_user_games_by_steamid(session['steamid'])
+    
+    # for user_game in user_library:
+    #     genres_list = crud.convert_genre_str_to_list(user_game.game.genres)
+        
+    #     for genre_id in genres_list:
+    #         genre = crud.get_genre(genre_id)
+    #         print(genre.name)
 
     return render_template('games.html', user_library=user_library)
 
