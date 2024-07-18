@@ -113,6 +113,21 @@ def game_page():
     #         print(genre.name)
 
     return render_template('games.html', user_library=user_library)
+    
+
+@app.route("/friends")
+def friends_list():
+    """view all friends a user has"""
+
+    all_friends = crud.get_friends_by_user_steamid(session['steamid'])
+
+    friends = []
+
+    for user_friend in all_friends:
+        friend = crud.get_user_by_steamid(user_friend.friend_steamid)
+        friends.append(friend)
+
+    return render_template('friends.html', friends=friends)
 
 
 # @app.route("/X")

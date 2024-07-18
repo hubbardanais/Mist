@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}{{ session['personaname'] }}'s Friends{% endblock %}
+
+{% block body %}
+    <h1>{{ session['personaname'] }}'s Friends</h1>
+
+    
+    {% for friend in friends %}
+        
+            <img class="avatar" src="{{ friend.avatarmedium }}">
+            <a href="/user/{{ friend.personaname }}">{{ friend.personaname }}</a><br><br>
+        
+    {% endfor %}
+    
+{% endblock %}

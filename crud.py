@@ -59,6 +59,14 @@ def create_friend(primary_user_steamid, friend_steamid):
     return friend
 
 
+def get_friends_by_user_steamid(steamid):
+    """return all friends associated with a steamid"""
+
+    friends = Friend.query.filter(Friend.primary_user_steamid == steamid).all()
+
+    return friends
+
+
 def create_game(id, game_modes, genres, name, summary=None, appid=None,
                 img_icon_url=None, game_url=None):
     """create and return a game"""
