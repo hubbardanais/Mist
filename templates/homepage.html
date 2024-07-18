@@ -6,12 +6,19 @@
   <h1>Welcome {{ session['personaname'] }}!</h1>
   {% endif %}
 
-  <h2>Navigation</h2>
-  <ul>
-    <li><a href="/games">View all games</a></li>
-    <li><a href="/friends">View all friends</a></li>
-    <li><a href="/user/{{ session['personaname'] }}">View profile</a></li>
-  </ul>
+  <h2>
+  <a href="/games">Games</a> | 
+  <a href="/friends">Friends</a> | 
+  <a href="/user/{{ session['personaname'] }}">Profile</a> | 
   <a href="/log_out">Log Out</a>
+  </h2>
 
 {% endblock %}
+
+<!-- <h2>Navigation</h2>
+ 
+<a href="/games">View all games</a><br><br>
+<a href="/friends">View all friends</a><br><br>
+<a href="/user/{{ session['personaname'] }}">View profile</a><br><br>
+
+<a href="/log_out">Log Out</a> -->

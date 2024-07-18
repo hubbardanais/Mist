@@ -4,12 +4,16 @@
 {% block body %}
     <h1>{{ session['personaname'] }}'s Friends</h1>
 
-    
+    {% if friends %}
     {% for friend in friends %}
         
             <img class="avatar" src="{{ friend.avatarmedium }}">
             <a href="/user/{{ friend.personaname }}">{{ friend.personaname }}</a><br><br>
         
     {% endfor %}
+
+    {% else %}
+        <p>Oh, looks like you don't have any friends yet. That's okay, I like you :)</p>
+    {% endif %}
     
 {% endblock %}

@@ -13,8 +13,10 @@ def add_and_commit(inst):
     db.session.commit()
 
 
-def create_user(email, password, steamid, personaname, avatar=None,
-                 avatarmedium=None, profileurl=None):
+def create_user(email, password, steamid, personaname, 
+                avatar="https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg",
+                avatarmedium="https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg", 
+                profileurl=None):
     """Create and return a new user."""
 
     user = User(email=email,
