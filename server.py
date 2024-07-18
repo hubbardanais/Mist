@@ -76,7 +76,7 @@ def register_user():
     else:
         crud.create_user(email=email, password=password, steamid=steamid, personaname="Test User")
         flash("Account created! Please log in.")
-        return redirect("/")
+        return redirect("/login")
 
     return render_template("createaccount.html")
 
@@ -128,6 +128,13 @@ def friends_list():
         friends.append(friend)
 
     return render_template('friends.html', friends=friends)
+
+
+@app.route("/compare_games")
+def compare_games_with_friends():
+    """view list of games shared between friends"""
+
+    return render_template('compare_games.html')
 
 
 # @app.route("/X")

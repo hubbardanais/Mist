@@ -11,13 +11,18 @@
     <link rel="stylesheet" href="/static/css/style.css">
   </head>
   <body>
+    {% if 'personaname' in session %}
+    <h2>
+      <a href="/">Home</a><br> 
+    </h2>
     <h3>
-      <a href="/">Home</a> | 
       <a href="/games">Games</a> | 
+      <a href="/compare_games">Find Shared Games</a> | 
       <a href="/friends">Friends</a> | 
       <a href="/user/{{ session['personaname'] }}">Profile</a> | 
       <a href="/log_out">Log Out</a>
     </h3>
+    {% endif %}
 
     {% for msg in get_flashed_messages() %}
       <p class="flash-msg">

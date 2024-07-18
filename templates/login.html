@@ -2,24 +2,26 @@
 {% block title %}Log In{% endblock %}
 
 {% block body %}
-<h2>Log In</h2>
-<form action="/login" method="POST">
-  <p>
-    <!-- Email <input type="text" name="email"> -->
-    SteamID <input type="text" name="steamid">
-  </p>
 
-  <p>
-    Password <input type="password" name="password">
-  </p>
+    <h2>Log In</h2>
+    <form action="/login" method="POST">
+      <p>
+        <!-- Email <input type="text" name="email"> -->
+        SteamID <input type="text" name="steamid">
+      </p>
 
-  <p>
-    <input type="submit">
-  </p>
+      <p>
+        Password <input type="password" name="password">
+      </p>
 
-  <p>
-    Don't have an account? 
-    <a href="/create_account" >Click here to sign up</a>
-  </p>
-</form>
-{% endblock %}
+      <p>
+        <input type="submit">
+      </p>
+
+      <p>
+        Don't have an account? 
+        <a href="/create_account" >Click here to sign up</a>
+      </p>
+    </form>
+
+    {% endblock %}
