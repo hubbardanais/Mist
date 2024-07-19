@@ -69,6 +69,21 @@ def get_friends_by_user_steamid(steamid):
     return friends
 
 
+def get_list_of_friends_as_users(steamid):
+    """take in a user's steam id to get info of their friends,
+      then turn those friends into a list of user instances"""
+
+    all_friends = get_friends_by_user_steamid(steamid)
+
+    friends_as_users = []
+
+    for user_friend in all_friends:
+        friend = get_user_by_steamid(user_friend.friend_steamid)
+        friends_as_users.append(friend)
+
+    return friends_as_users
+
+
 def create_game(id, game_modes, genres, name, summary=None, appid=None,
                 img_icon_url=None, game_url=None):
     """create and return a game"""

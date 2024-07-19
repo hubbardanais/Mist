@@ -119,13 +119,15 @@ def game_page():
 def friends_list():
     """view all friends a user has"""
 
-    all_friends = crud.get_friends_by_user_steamid(session['steamid'])
+    # all_friends = crud.get_friends_by_user_steamid(session['steamid'])
 
-    friends = []
+    # friends = []
 
-    for user_friend in all_friends:
-        friend = crud.get_user_by_steamid(user_friend.friend_steamid)
-        friends.append(friend)
+    # for user_friend in all_friends:
+    #     friend = crud.get_user_by_steamid(user_friend.friend_steamid)
+    #     friends.append(friend)
+
+    friends = crud.get_list_of_friends_as_users(session['steamid'])
 
     return render_template('friends.html', friends=friends)
 
