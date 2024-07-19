@@ -8,4 +8,18 @@
     <p>Or maybe have a choice between individual friends vs groups</p>
     <p>A game comparison would go here</p>
 
+    <h3>Select which friends you'd like to find shared games with:</h3>
+
+    {% if friends %}
+    {% for friend in friends %}
+        
+            <p><img class="avatar" src="{{ friend.avatar }}"> {{ friend.personaname }}</p>
+            
+        
+    {% endfor %}
+
+    {% else %}
+        <p>Oops! I can't find anyone to compare games with!</p>
+    {% endif %}
+
 {% endblock %}

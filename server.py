@@ -136,7 +136,9 @@ def friends_list():
 def compare_games_with_friends():
     """view list of games shared between friends"""
 
-    return render_template('compare_games.html')
+    friends = crud.get_list_of_friends_as_users(session['steamid'])
+
+    return render_template('compare_games.html', friends=friends)
 
 
 # @app.route("/X")
