@@ -119,14 +119,6 @@ def game_page():
 def friends_list():
     """view all friends a user has"""
 
-    # all_friends = crud.get_friends_by_user_steamid(session['steamid'])
-
-    # friends = []
-
-    # for user_friend in all_friends:
-    #     friend = crud.get_user_by_steamid(user_friend.friend_steamid)
-    #     friends.append(friend)
-
     friends = crud.get_list_of_friends_as_users(session['steamid'])
 
     return render_template('friends.html', friends=friends)
@@ -139,6 +131,24 @@ def compare_games_with_friends():
     friends = crud.get_list_of_friends_as_users(session['steamid'])
 
     return render_template('compare_games.html', friends=friends)
+
+
+@app.route("/compare_games", methods=["POST"])
+def get_selected_friends_to_compare():
+    """view list of games shared between friends"""
+
+    users_to_compare_games = request.form.keys() 
+    print(users_to_compare_games)
+    
+    friends_with_games = []
+
+    for user in users_to_compare_games:
+        friend_all_games = crud.get_all_user_games_by_steamid(user)
+        friends_with_games.append(friend_all_games)
+        print(type(friend_all_games))
+    print("====================================")
+
+    return redirect('/compare_games', friends_with_games=friends_with_games)
 
 
 # @app.route("/X")

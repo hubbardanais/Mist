@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Games With Friends{% endblock %}
+
+{% block body %}
+
+{% if friends_with_games %}
+{% for friends in friends_with_games %}
+    <p>{{ friends }}</p>
+
+{% endfor %}
+{% endif %}
+
+{% endblock %}
