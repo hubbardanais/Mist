@@ -3,11 +3,15 @@
 
 {% block body %}
 
-{% if friends_with_games %}
-{% for friends in friends_with_games %}
-    <p>{{ friends }}</p>
+    <h2>You can play together: </h2>
 
-{% endfor %}
+{% if friends_games %}
+    {% for game in friends_games %}
+    
+    <h3><img class="avatar" src="{{ game.img_icon_url }}">   {{ game.name }}</h3>
+
+    {% endfor %}
+
 {% endif %}
 
 {% endblock %}

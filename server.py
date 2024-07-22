@@ -104,13 +104,6 @@ def game_page():
     """view games"""
 
     user_library = crud.get_all_user_games_by_steamid(session['steamid'])
-    
-    # for user_game in user_library:
-    #     genres_list = crud.convert_genre_str_to_list(user_game.game.genres)
-        
-    #     for genre_id in genres_list:
-    #         genre = crud.get_genre(genre_id)
-    #         print(genre.name)
 
     return render_template('games.html', user_library=user_library)
     
@@ -137,18 +130,28 @@ def compare_games_with_friends():
 def get_selected_friends_to_compare():
     """view list of games shared between friends"""
 
-    users_to_compare_games = request.form.keys() 
-    print(users_to_compare_games)
-    
-    friends_with_games = []
+    #Get all users selected from compare_games checkbox form
+    selected_users_to_compare_games = request.form.keys() 
 
-    for user in users_to_compare_games:
-        friend_all_games = crud.get_all_user_games_by_steamid(user)
-        friends_with_games.append(friend_all_games)
-        print(type(friend_all_games))
-    print("====================================")
+    #Get a set of all the games the user in session has
+    user_games = crud.get_all_games_by_steamid(session['steamid'])
 
-    return redirect('/compare_games', friends_with_games=friends_with_games)
+    friends_games = []
+
+    #for each friend selected, get the set of their games and add to list
+    for user in selected_users_to_compare_games:
+        friends_games.append(crud.get_all_games_by_steamid(user))
+
+    if friends_games:
+        common_games = user_games
+        
+        for friend in friends_games:
+            common_games = common_games & friend
+
+        return render_template('returned_shared_games.html', friends_games=common_games)
+    else:
+        flash("Please select a friend to find shared games with")
+        return redirect('/compare_games')
 
 
 # @app.route("/X")

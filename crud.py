@@ -119,6 +119,17 @@ def get_all_user_games_by_steamid(steamid):
 
     return user_games
 
+def get_all_games_by_steamid(steamid):
+    """return set of all owned game items from user (returns game table items)"""
+
+    user_games = UserLibrary.query.filter(UserLibrary.steamid == steamid).all()
+
+    games = set()
+    for game in user_games:
+        games.add(game.game)
+
+    return games
+
 
 def create_game_modes(id, name):
     """create and return a comma seperated string of game modes"""
