@@ -14,9 +14,35 @@ def get_steam_player_summaries(steamid):
 
     player_summary = get(f'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={STEAM_WEB_KEY}&steamids={steamid}')
 
-    print(player_summary.json())
+    json_player_summary = player_summary.json()
 
-# get_steam_player_summaries(76561199002632683)
+    print(json_player_summary['response']['players'][0])
+    # get_response[response][players]
+
+    # x = json_player_summary["response"]
+
+    # print(x)
+    # print("===========================")
+
+    # y = x["players"]
+
+    # print(y[0])
+
+    # print("===========================")
+
+    # z = y[0]
+
+    # print(z["steamid"])
+    # print(z["personaname"])
+    # print(z["profileurl"])
+    # print(z["avatar"])
+    # print(z["avatarmedium"])
+    
+
+    # return player_summary.json()
+
+# print(get_steam_player_summaries(76561199002632683))
+get_steam_player_summaries(76561199002632683)
 
 
 def get_steam_friend_list(steamid):
@@ -24,9 +50,9 @@ def get_steam_friend_list(steamid):
 
     friend_list = get(f'https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key={STEAM_WEB_KEY}&steamid={steamid}&relationship=friend')
 
-    print(friend_list.json())
+    return friend_list.json()
 
-# get_steam_friend_list(76561198150352266)
+# print(get_steam_friend_list(76561199002632683))
 
 
 def get_steam_owned_games(steamid):
@@ -34,9 +60,9 @@ def get_steam_owned_games(steamid):
 
     owned_games = get(f'https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={STEAM_WEB_KEY}&steamid={steamid}&format=json&include_appinfo=True&include_played_free_games')
 
-    print(owned_games.json())
+    return owned_games.json()
 
-# get_steam_owned_games(76561199002632683)
+# print(get_steam_owned_games(76561199002632683))
 
 
 #IGDB calls:
