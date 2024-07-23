@@ -12,7 +12,6 @@ app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
 
 
-#   ... your routes, view functions, and everything else can come later ...
 @app.route('/')
 def homepage():
     """View homepage."""
@@ -149,6 +148,7 @@ def get_selected_friends_to_compare():
             common_games = common_games & friend
 
         return render_template('returned_shared_games.html', friends_games=common_games)
+    
     else:
         flash("Please select a friend to find shared games with")
         return redirect('/compare_games')
@@ -159,6 +159,7 @@ def get_selected_friends_to_compare():
 #     """"""
 
 #     return
+
 
 if __name__ == "__main__":
     connect_to_db(app)

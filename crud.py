@@ -119,6 +119,7 @@ def get_all_user_games_by_steamid(steamid):
 
     return user_games
 
+
 def get_all_games_by_steamid(steamid):
     """return set of all owned game items from user (returns game table items)"""
 
