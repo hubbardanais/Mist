@@ -1,15 +1,24 @@
 """Server for finding games owned in common"""
+import os
 
 from flask import Flask, render_template, request, flash, session, redirect
 
 from model import connect_to_db, db
 import crud
+import helper
 
 from jinja2 import StrictUndefined
 
 app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
+
+os.system('dropdb my_database')
+os.system('createdb my_database')
+
+connect_to_db(app)
+app.app_context().push()
+db.create_all()
 
 
 @app.route('/')
@@ -73,9 +82,23 @@ def register_user():
     elif user_steamid:
         flash("Cannot create an account with that SteamID. Try again.")
     else:
-        crud.create_user(email=email, password=password, steamid=steamid, personaname="Test User")
+        player_summary = helper.get_steam_player_summaries(steamid)
+
+        for info in player_summary['response']['players']:
+            personaname = info['personaname']
+            url = info['profileurl']
+            avatar = info['avatar']
+            avatar_med = info['avatarmedium']
+
+        crud.create_user(email=email, password=password, steamid=steamid,
+                        personaname=personaname, avatar=avatar, 
+                        avatarmedium=avatar_med, profileurl=url)
         flash("Account created! Please log in.")
         return redirect("/login")
+    # else:
+    #     crud.create_user(email=email, password=password, steamid=steamid, personaname="Test User")
+    #     flash("Account created! Please log in.")
+    #     return redirect("/login")
 
     return render_template("createaccount.html")
 

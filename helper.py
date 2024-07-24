@@ -2,6 +2,8 @@ import os
 
 from requests import post, get
 
+import crud
+
 STEAM_WEB_KEY = os.environ['STEAM_WEB_KEY']
 
 IGDB_CLIENT_ID = os.environ['IGDB_CLIENT_ID']
@@ -14,22 +16,27 @@ def get_steam_player_summaries(steamid):
 
     player_summary = get(f'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={STEAM_WEB_KEY}&steamids={steamid}')
 
-    json_player_summary = player_summary.json()
+    return player_summary.json()
 
-    print(json_player_summary['response']['players'][0])
-    # get_response[response][players]
 
-    # x = json_player_summary["response"]
+# print(get_steam_player_summaries(76561199002632683))
+# get_steam_player_summaries(76561199002632683)
 
-    # print(x)
-    # print("===========================")
+# def add_user_info_to_db(steamid):
+#     """add user to db"""
 
-    # y = x["players"]
+#     player_summary = get_steam_player_summaries(steamid)
 
-    # print(y[0])
+    
+#     for info in player_summary['response']['players']:
+#         steam_id = info['steamid']
+#         personaname = info['personaname']
+#         url = info['profileurl']
+#         avatar = info['avatar']
+#         avatar_med = info['avatarmedium']
 
-    # print("===========================")
-
+#         print(steam_id, personaname, url, avatar, avatar_med)
+   
     # z = y[0]
 
     # print(z["steamid"])
@@ -41,9 +48,7 @@ def get_steam_player_summaries(steamid):
 
     # return player_summary.json()
 
-# print(get_steam_player_summaries(76561199002632683))
-get_steam_player_summaries(76561199002632683)
-
+# add_user_info_to_db(76561199002632683)
 
 def get_steam_friend_list(steamid):
     """get steam user's friend list"""
