@@ -13,12 +13,13 @@ app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
 
-os.system('dropdb my_database')
-os.system('createdb my_database')
+# # Move these
+# os.system('dropdb my_database')
+# os.system('createdb my_database')
 
-connect_to_db(app)
-app.app_context().push()
-db.create_all()
+# # connect_to_db(app)
+# # app.app_context().push()
+# db.create_all()
 
 
 @app.route('/')
@@ -81,24 +82,46 @@ def register_user():
         flash("Cannot create an account with that email. Try again.")
     elif user_steamid:
         flash("Cannot create an account with that SteamID. Try again.")
-    else:
-        player_summary = helper.get_steam_player_summaries(steamid)
-
-        for info in player_summary['response']['players']:
-            personaname = info['personaname']
-            url = info['profileurl']
-            avatar = info['avatar']
-            avatar_med = info['avatarmedium']
-
-        crud.create_user(email=email, password=password, steamid=steamid,
-                        personaname=personaname, avatar=avatar, 
-                        avatarmedium=avatar_med, profileurl=url)
-        flash("Account created! Please log in.")
-        return redirect("/login")
     # else:
-    #     crud.create_user(email=email, password=password, steamid=steamid, personaname="Test User")
+    #     # call helper function to get summary, store that
+    #     # loop over the summary and create users
+    #         # call create_user
+    #     # crud.add_player_summary_to_db(email, password, steamid)
+    #     player_summary = helper.get_steam_player_summaries(steamid)
+
+    #     for info in player_summary['response']['players']:
+    #         personaname = info['personaname']
+    #         url = info['profileurl']
+    #         avatar = info['avatar']
+    #         avatar_med = info['avatarmedium']
+
+    #         user = crud.create_user(email, password, steamid, personaname, avatar, avatar_med, url)
+    #         add_and_commit(user)
+
+
+    #     friend_list = helper.get_steam_friend_list(steamid)
+
+    #     for friend in friend_list['friendslist']['friends']:
+    #         friend_steamid = friend['steamid']
+    #         # print(friend_steamid)
+    #         # print('=======================================')
+    #         # create_user for friend
+    #         users_friends =  crud.create_friend(steamid, friend_steamid)
+    #         print(users_friends)
+    #         print('=====================================')
+    #         add_and_commit(users_friends)
+
+
+
+        
+    #     # crud.add_friend_list_to_db(steamid)
     #     flash("Account created! Please log in.")
     #     return redirect("/login")
+    else:
+        user = crud.create_user(email=email, password=password, steamid=steamid, personaname="Test User")
+        add_and_commit(user)
+        flash("Account created! Please log in.")
+        return redirect("/login")
 
     return render_template("createaccount.html")
 
@@ -184,6 +207,17 @@ def get_selected_friends_to_compare():
 #     return
 
 
+def add_and_commit(inst):
+    """a faster way to add and commit everything to the db"""
+    db.session.add(inst)
+    db.session.commit()
+
+
 if __name__ == "__main__":
+    # os.system('dropdb my_database')
+    # os.system('createdb my_database')
+
     connect_to_db(app)
+    # db.create_all()
+    
     app.run(host="0.0.0.0", debug=True, port=6060)

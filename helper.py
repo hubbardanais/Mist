@@ -2,7 +2,7 @@ import os
 
 from requests import post, get
 
-import crud
+# import crud
 
 STEAM_WEB_KEY = os.environ['STEAM_WEB_KEY']
 
@@ -18,37 +18,24 @@ def get_steam_player_summaries(steamid):
 
     return player_summary.json()
 
-
 # print(get_steam_player_summaries(76561199002632683))
 # get_steam_player_summaries(76561199002632683)
 
-# def add_user_info_to_db(steamid):
+
+# def add_player_summary_to_db(email, password, steamid):
 #     """add user to db"""
 
 #     player_summary = get_steam_player_summaries(steamid)
 
     
 #     for info in player_summary['response']['players']:
-#         steam_id = info['steamid']
 #         personaname = info['personaname']
 #         url = info['profileurl']
 #         avatar = info['avatar']
 #         avatar_med = info['avatarmedium']
 
-#         print(steam_id, personaname, url, avatar, avatar_med)
-   
-    # z = y[0]
+#         crud.create_user(email, password, steamid, personaname, avatar, avatar_med, url)
 
-    # print(z["steamid"])
-    # print(z["personaname"])
-    # print(z["profileurl"])
-    # print(z["avatar"])
-    # print(z["avatarmedium"])
-    
-
-    # return player_summary.json()
-
-# add_user_info_to_db(76561199002632683)
 
 def get_steam_friend_list(steamid):
     """get steam user's friend list"""
@@ -58,6 +45,21 @@ def get_steam_friend_list(steamid):
     return friend_list.json()
 
 # print(get_steam_friend_list(76561199002632683))
+
+
+# def add_friend_list_to_db(steamid):
+
+#     friend_list = get_steam_friend_list(steamid)
+
+#     for friend in friend_list['friendslist']['friends']:
+#        friend_steamid = friend['steamid']
+#        print(friend_steamid)
+#        print('=======================================')
+
+#        test =  crud.create_friend(steamid, friend_steamid)
+#        print(test)
+
+# add_friend_list_to_db(76561199002632683)
 
 
 def get_steam_owned_games(steamid):

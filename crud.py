@@ -1,16 +1,17 @@
 """CRUD operations."""
 
 from datetime import datetime
-
 from model import db, User, Friend, UserLibrary, Game, GameModes, Genres, UserGroups, Groups, GroupWishlist, Event, EventAttendees, connect_to_db
+import helper
 
+# app.app_context().push()
 
 # Functions start here!
 
-def add_and_commit(inst):
-    """a faster way to add and commit everything to the db"""
-    db.session.add(inst)
-    db.session.commit()
+# def add_and_commit(inst):
+#     """a faster way to add and commit everything to the db"""
+#     db.session.add(inst)
+#     db.session.commit()
 
 
 def create_user(email, password, steamid, personaname, 
@@ -28,8 +29,23 @@ def create_user(email, password, steamid, personaname,
                 profileurl=profileurl
                 )
     
-    add_and_commit(user)
+    # add_and_commit(user)
     return user
+
+
+# def add_player_summary_to_db(email, password, steamid):
+#     """add user to db"""
+
+#     player_summary = helper.get_steam_player_summaries(steamid)
+
+#     for info in player_summary['response']['players']:
+#         personaname = info['personaname']
+#         url = info['profileurl']
+#         avatar = info['avatar']
+#         avatar_med = info['avatarmedium']
+
+#         create_user(email, password, steamid, personaname, avatar, avatar_med, url)
+
 
 
 def get_user_by_steamid(steamid):
@@ -57,7 +73,7 @@ def create_friend(primary_user_steamid, friend_steamid):
                     friend_steamid=friend_steamid
                     )
     
-    add_and_commit(friend)
+    # add_and_commit(friend)
     return friend
 
 
@@ -98,7 +114,7 @@ def create_game(id, game_modes, genres, name, summary=None, appid=None,
                 game_url=game_url
                 )
     
-    add_and_commit(game)
+    # add_and_commit(game)
     return game
 
 
@@ -108,7 +124,7 @@ def create_user_library(steamid, name):
     user_library = UserLibrary(steamid=steamid,
                                name=name)
 
-    add_and_commit(user_library)
+    # add_and_commit(user_library)
     return user_library
 
 
@@ -133,11 +149,11 @@ def get_all_games_by_steamid(steamid):
 
 
 def create_game_modes(id, name):
-    """create and return a comma seperated string of game modes"""
+    # """create and return a comma seperated string of game modes"""
 
     game_modes = GameModes(id=id, name=name)
 
-    add_and_commit(game_modes)
+    # add_and_commit(game_modes)
     return game_modes
 
 
@@ -146,7 +162,7 @@ def create_genres(id, name):
 
     genres = Genres(id=id, name=name)
 
-    add_and_commit(genres)
+    # add_and_commit(genres)
     return genres
 
 
@@ -174,7 +190,7 @@ def create_user_groups(steamid, group_id):
 
     user_groups = UserGroups(steamid=steamid, group_id=group_id)
 
-    add_and_commit(user_groups)
+    # add_and_commit(user_groups)
     return user_groups
 
 
@@ -184,7 +200,7 @@ def create_groups(group_name, group_img):
     group = Groups(group_name=group_name,
                    group_img=group_img)
 
-    add_and_commit(group)
+    # add_and_commit(group)
     return group
 
 
@@ -193,7 +209,7 @@ def create_group_wishlist(game_id, group_id):
 
     group_wishlist = GroupWishlist(game_id=game_id,group_id=group_id)
 
-    add_and_commit(group_wishlist)
+    # add_and_commit(group_wishlist)
     return group_wishlist
 
 
@@ -210,7 +226,7 @@ def create_event(group_id, proposed_datetime, description,
                   if_game_selected=if_game_selected,
                   game_id=game_id)
 
-    add_and_commit(event)
+    # add_and_commit(event)
     return event
 
 
@@ -222,7 +238,7 @@ def create_event_attendees(steamid, event_id, is_attending):
                                      is_attending=is_attending,
                                      )
 
-    add_and_commit(event_attendees)
+    # add_and_commit(event_attendees)
     return event_attendees
 
 
