@@ -2,16 +2,6 @@
 
 from datetime import datetime
 from model import db, User, Friend, UserLibrary, Game, GameModes, Genres, UserGroups, Groups, GroupWishlist, Event, EventAttendees, connect_to_db
-import helper
-
-# app.app_context().push()
-
-# Functions start here!
-
-# def add_and_commit(inst):
-#     """a faster way to add and commit everything to the db"""
-#     db.session.add(inst)
-#     db.session.commit()
 
 
 def create_user(email, password, steamid, personaname, 
@@ -31,21 +21,6 @@ def create_user(email, password, steamid, personaname,
     
     # add_and_commit(user)
     return user
-
-
-# def add_player_summary_to_db(email, password, steamid):
-#     """add user to db"""
-
-#     player_summary = helper.get_steam_player_summaries(steamid)
-
-#     for info in player_summary['response']['players']:
-#         personaname = info['personaname']
-#         url = info['profileurl']
-#         avatar = info['avatar']
-#         avatar_med = info['avatarmedium']
-
-#         create_user(email, password, steamid, personaname, avatar, avatar_med, url)
-
 
 
 def get_user_by_steamid(steamid):
