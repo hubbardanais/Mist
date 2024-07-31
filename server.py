@@ -88,6 +88,51 @@ def register_user():
             add_and_commit(user)
 
 
+        owned_games = helper.get_steam_owned_games(steamid)
+
+        for game in owned_games['response']['games']:
+            appid = game['appid']
+            game_name = game['name']
+            img_hash = game['img_icon_url']
+            img_url = crud.create_img_url(appid, img_hash)
+            game_url = crud.create_steam_game_urls(appid, game_name)
+
+            igdb_game_info = helper.get_igdb_game_by_name(game_name)
+
+            for game_info in igdb_game_info:
+                id = game_info['id']
+                game_modes = game_info['game_modes']
+                string_game_modes = []
+                for mode in game_modes:
+                    string_game_modes.append(str(mode))
+                string_game_modes = ", ".join(string_game_modes)
+
+                print(game_name)
+                genres = game_info['genres']
+                string_genres = []
+                for genre in genres:
+                    string_genres.append(str(genre))
+                string_genres = ', '.join(string_genres)
+
+                summary = game_info.get('summary')
+
+            db_game = crud.get_game_by_id(id)
+
+            if not db_game:
+                db_game = crud.create_game(id=id, game_modes=string_game_modes,
+                                            genres=string_genres, name=game_name, 
+                                            summary=summary, appid=appid, img_icon_url=img_url, game_url=game_url)
+                add_and_commit(db_game)
+
+            is_game_in_user_library = crud.check_for_game_in_user_library(steamid, db_game.name)
+
+            if not is_game_in_user_library:
+                add_to_game_library = crud.create_user_library(steamid, db_game.name)
+                add_and_commit(add_to_game_library)
+
+
+
+
         friend_list = helper.get_steam_friend_list(steamid)
 
         for friend in friend_list['friendslist']['friends']:

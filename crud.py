@@ -92,6 +92,13 @@ def create_game(id, game_modes, genres, name, summary=None, appid=None,
     # add_and_commit(game)
     return game
 
+def get_game_by_id(id):
+    """return first game in db by id"""
+
+    game = Game.query.filter(Game.id == id).first()
+
+    return game
+
 
 def create_user_library(steamid, name):
     """create and return an association between a user and game"""
@@ -101,6 +108,15 @@ def create_user_library(steamid, name):
 
     # add_and_commit(user_library)
     return user_library
+
+
+def check_for_game_in_user_library(steamid, game_name):
+    """Query for game in UserLibrary by steamid and game name""" 
+
+    game_in_library = UserLibrary.query.filter(UserLibrary.steamid == steamid,
+                                               UserLibrary.name == game_name).first()
+    
+    return game_in_library
 
 
 def get_all_user_games_by_steamid(steamid):

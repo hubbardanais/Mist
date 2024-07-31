@@ -18,24 +18,6 @@ def get_steam_player_summaries(steamid):
 
     return player_summary.json()
 
-# print(get_steam_player_summaries(76561199002632683))
-# get_steam_player_summaries(76561199002632683)
-
-
-# def add_player_summary_to_db(email, password, steamid):
-#     """add user to db"""
-
-#     player_summary = get_steam_player_summaries(steamid)
-
-    
-#     for info in player_summary['response']['players']:
-#         personaname = info['personaname']
-#         url = info['profileurl']
-#         avatar = info['avatar']
-#         avatar_med = info['avatarmedium']
-
-#         crud.create_user(email, password, steamid, personaname, avatar, avatar_med, url)
-
 
 def get_steam_friend_list(steamid):
     """get steam user's friend list"""
@@ -43,23 +25,6 @@ def get_steam_friend_list(steamid):
     friend_list = get(f'https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key={STEAM_WEB_KEY}&steamid={steamid}&relationship=friend')
 
     return friend_list.json()
-
-# print(get_steam_friend_list(76561199002632683))
-
-
-# def add_friend_list_to_db(steamid):
-
-#     friend_list = get_steam_friend_list(steamid)
-
-#     for friend in friend_list['friendslist']['friends']:
-#        friend_steamid = friend['steamid']
-#        print(friend_steamid)
-#        print('=======================================')
-
-#        test =  crud.create_friend(steamid, friend_steamid)
-#        print(test)
-
-# add_friend_list_to_db(76561199002632683)
 
 
 def get_steam_owned_games(steamid):
@@ -69,7 +34,7 @@ def get_steam_owned_games(steamid):
 
     return owned_games.json()
 
-# print(get_steam_owned_games(76561199002632683))
+# print(get_steam_owned_games(76561198043449106))
 
 
 #IGDB calls:
@@ -80,6 +45,6 @@ def get_igdb_game_by_name(name):
                     **{'headers': {'Client-ID': IGDB_CLIENT_ID, 'Authorization': IGDB_TOKEN},
                        'data': f'fields name, genres, game_modes, summary; where name = "{name}";'})
     
-    print(str(response.json()))
+    return response.json()
 
-# get_igdb_game_by_name("Slime Rancher")
+# print(get_igdb_game_by_name("Mass Effect Legendary Edition"))
