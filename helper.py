@@ -26,6 +26,16 @@ def get_steam_friend_list(steamid):
 
     return friend_list.json()
 
+# print(get_steam_friend_list(76561198043449106))
+
+# test = get_steam_friend_list(76561198043449106)
+
+# if not test:
+#     print("yes")
+
+# else:
+#     print("no")
+
 
 def get_steam_owned_games(steamid):
     """get steam user's owned game list"""
@@ -35,6 +45,14 @@ def get_steam_owned_games(steamid):
     return owned_games.json()
 
 # print(get_steam_owned_games(76561198043449106))
+
+# test = get_steam_owned_games(76561198043449106)
+
+# if  not test['response']:
+#     print("yes")
+
+# else: 
+#     print("no")
 
 
 #IGDB calls:

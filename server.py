@@ -89,74 +89,90 @@ def register_user():
 
 
         owned_games = helper.get_steam_owned_games(steamid)
+        print(f"owned_games: {owned_games}")
 
-        for game in owned_games['response']['games']:
-            appid = game['appid']
-            game_name = game['name']
-            img_hash = game['img_icon_url']
-            img_url = crud.create_img_url(appid, img_hash)
-            game_url = crud.create_steam_game_urls(appid, game_name)
+        if owned_games['response']:
 
-            igdb_game_info = helper.get_igdb_game_by_name(game_name)
-
-            for game_info in igdb_game_info:
-                id = game_info['id']
-                game_modes = game_info['game_modes']
-                string_game_modes = []
-                for mode in game_modes:
-                    string_game_modes.append(str(mode))
-                string_game_modes = ", ".join(string_game_modes)
-
+            for game in owned_games['response']['games']:
+                appid = game['appid']
+                print(f"appid: {appid}")
+                game_name = game['name']
                 print(game_name)
-                genres = game_info['genres']
-                string_genres = []
-                for genre in genres:
-                    string_genres.append(str(genre))
-                string_genres = ', '.join(string_genres)
+                img_hash = game['img_icon_url']
+                img_url = crud.create_img_url(appid, img_hash)
+                game_url = crud.create_steam_game_urls(appid, game_name)
 
-                summary = game_info.get('summary')
+                igdb_game_info = helper.get_igdb_game_by_name(game_name)
 
-            db_game = crud.get_game_by_id(id)
+                print(f"igdb_game_info: {igdb_game_info}")
+                # check to see if len(igdb_game_info) > 1 ==> iterate through using while loop ==> check which one has game_modes AND genres keys, once that one found, add the attributes
+                for game_info in igdb_game_info:
+                    id = game_info['id']
+                    print(f"id: {id}")
+                    if game_info['game_modes']:
+                        game_modes = game_info['game_modes']
+                        print(f"game_modes: {game_modes}")
+                        string_game_modes = []
+                        for mode in game_modes:
+                            string_game_modes.append(str(mode))
+                        string_game_modes = ", ".join(string_game_modes)
+                        print(f"string_game_modes: {string_game_modes}")
+                    else:
+                        string_game_modes = None
 
-            if not db_game:
-                db_game = crud.create_game(id=id, game_modes=string_game_modes,
-                                            genres=string_genres, name=game_name, 
-                                            summary=summary, appid=appid, img_icon_url=img_url, game_url=game_url)
-                add_and_commit(db_game)
+                    genres = game_info['genres']
+                    print(f"genres: {genres}")
+                    string_genres = []
+                    for genre in genres:
+                        string_genres.append(str(genre))
+                    string_genres = ', '.join(string_genres)
+                    print(f"string_genres: {string_genres}")
 
-            is_game_in_user_library = crud.check_for_game_in_user_library(steamid, db_game.name)
+                    summary = game_info.get('summary')
 
-            if not is_game_in_user_library:
-                add_to_game_library = crud.create_user_library(steamid, db_game.name)
-                add_and_commit(add_to_game_library)
+                db_game = crud.get_game_by_id(id)
+
+                if not db_game:
+                    db_game = crud.create_game(id=id, game_modes=string_game_modes,
+                                                genres=string_genres, name=game_name, 
+                                                summary=summary, appid=appid, img_icon_url=img_url, game_url=game_url)
+                    add_and_commit(db_game)
+
+                is_game_in_user_library = crud.check_for_game_in_user_library(steamid, db_game.name)
+
+                if not is_game_in_user_library:
+                    add_to_game_library = crud.create_user_library(steamid, db_game.name)
+                    add_and_commit(add_to_game_library)
 
 
 
 
         friend_list = helper.get_steam_friend_list(steamid)
 
-        for friend in friend_list['friendslist']['friends']:
-            friend_steamid = friend['steamid']
+        if friend_list:
 
-            users_friends =  crud.create_friend(steamid, friend_steamid)
-            add_and_commit(users_friends)
+            for friend in friend_list['friendslist']['friends']:
+                friend_steamid = friend['steamid']
 
-            check_if_friend_in_db = crud.get_user_by_steamid(friend_steamid)
+                users_friends =  crud.create_friend(steamid, friend_steamid)
+                add_and_commit(users_friends)
 
-            #Friend Info:
-            if not check_if_friend_in_db:
-                friend_summary = helper.get_steam_player_summaries(friend_steamid)
+                check_if_friend_in_db = crud.get_user_by_steamid(friend_steamid)
 
-                for info in friend_summary['response']['players']:
-                    personaname = info['personaname']
-                    url = info['profileurl']
-                    avatar = info['avatar']
-                    avatar_med = info['avatarmedium']
+                #Friend Info:
+                if not check_if_friend_in_db:
+                    friend_summary = helper.get_steam_player_summaries(friend_steamid)
 
-                    friend_user = crud.create_user(email=friend_steamid, password="temporary",
-                                                steamid=friend_steamid, personaname=personaname, 
-                                                avatar=avatar, avatarmedium=avatar_med, profileurl=url)
-                    add_and_commit(friend_user)
+                    for info in friend_summary['response']['players']:
+                        personaname = info['personaname']
+                        url = info['profileurl']
+                        avatar = info['avatar']
+                        avatar_med = info['avatarmedium']
+
+                        friend_user = crud.create_user(email=friend_steamid, password="temporary",
+                                                    steamid=friend_steamid, personaname=personaname, 
+                                                    avatar=avatar, avatarmedium=avatar_med, profileurl=url)
+                        add_and_commit(friend_user)
 
         
         flash("Account created! Please log in.")
