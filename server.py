@@ -89,62 +89,122 @@ def register_user():
 
 
         owned_games = helper.get_steam_owned_games(steamid)
-        print(f"owned_games: {owned_games}")
+        # print(f"owned_games: {owned_games}")
 
         if owned_games['response']:
 
             for game in owned_games['response']['games']:
                 appid = game['appid']
-                print(f"appid: {appid}")
+                # print(f"appid: {appid}")
                 game_name = game['name']
-                print(game_name)
+                # print(game_name)
                 img_hash = game['img_icon_url']
                 img_url = crud.create_img_url(appid, img_hash)
                 game_url = crud.create_steam_game_urls(appid, game_name)
 
                 igdb_game_info = helper.get_igdb_game_by_name(game_name)
 
-                print(f"igdb_game_info: {igdb_game_info}")
+                # print(f"igdb_game_info: {igdb_game_info}")
                 # check to see if len(igdb_game_info) > 1 ==> iterate through using while loop ==> check which one has game_modes AND genres keys, once that one found, add the attributes
-                for game_info in igdb_game_info:
-                    id = game_info['id']
-                    print(f"id: {id}")
-                    if game_info['game_modes']:
-                        game_modes = game_info['game_modes']
-                        print(f"game_modes: {game_modes}")
-                        string_game_modes = []
-                        for mode in game_modes:
-                            string_game_modes.append(str(mode))
-                        string_game_modes = ", ".join(string_game_modes)
-                        print(f"string_game_modes: {string_game_modes}")
-                    else:
-                        string_game_modes = None
+                    
+                if len(igdb_game_info) == 1:
+                    
+                    for game_info in igdb_game_info:
+                        id = game_info['id']
+                        # print(f"id: {id}")
+                        if game_info.get('game_modes'):
+                            game_modes = game_info['game_modes']
+                            # print(f"game_modes: {game_modes}")
+                            string_game_modes = []
+                            for mode in game_modes:
+                                string_game_modes.append(str(mode))
+                            string_game_modes = ", ".join(string_game_modes)
+                            # print(f"string_game_modes: {string_game_modes}")
+                        else:
+                            string_game_modes = ""
 
-                    genres = game_info['genres']
-                    print(f"genres: {genres}")
-                    string_genres = []
-                    for genre in genres:
-                        string_genres.append(str(genre))
-                    string_genres = ', '.join(string_genres)
-                    print(f"string_genres: {string_genres}")
+                        if game_info.get('genres'):
+                            genres = game_info['genres']
+                            # print(f"genres: {genres}")
+                            string_genres = []
+                            for genre in genres:
+                                string_genres.append(str(genre))
+                            string_genres = ', '.join(string_genres)
+                            # print(f"string_genres: {string_genres}")
+                        else:
+                            string_genres = ""
 
-                    summary = game_info.get('summary')
+                        summary = game_info.get('summary', "Seems like the summary on this game is Top Secret!")
 
-                db_game = crud.get_game_by_id(id)
+                
+                    db_game = crud.get_game_by_id(id)
 
-                if not db_game:
-                    db_game = crud.create_game(id=id, game_modes=string_game_modes,
-                                                genres=string_genres, name=game_name, 
-                                                summary=summary, appid=appid, img_icon_url=img_url, game_url=game_url)
-                    add_and_commit(db_game)
+                    if not db_game:
+                        db_game = crud.create_game(id=id, game_modes=string_game_modes,
+                                                    genres=string_genres, name=game_name, 
+                                                    summary=summary, appid=appid, img_icon_url=img_url, game_url=game_url)
+                        add_and_commit(db_game)
 
-                is_game_in_user_library = crud.check_for_game_in_user_library(steamid, db_game.name)
+                    is_game_in_user_library = crud.check_for_game_in_user_library(steamid, db_game.name)
 
-                if not is_game_in_user_library:
-                    add_to_game_library = crud.create_user_library(steamid, db_game.name)
-                    add_and_commit(add_to_game_library)
+                    if not is_game_in_user_library:
+                        add_to_game_library = crud.create_user_library(steamid, db_game.name)
+                        add_and_commit(add_to_game_library)
 
 
+                elif len(igdb_game_info) > 1:
+
+                    for game_info in igdb_game_info:
+                        if 'game_modes' in game_info and 'genres' in game_info:
+                            id = game_info['id']
+                            # print(f"id: {id}")
+                            if game_info['game_modes']:
+                                game_modes = game_info['game_modes']
+                                # print(f"game_modes: {game_modes}")
+                                string_game_modes = []
+                                for mode in game_modes:
+                                    string_game_modes.append(str(mode))
+                                string_game_modes = ", ".join(string_game_modes)
+                                # print(f"string_game_modes: {string_game_modes}")
+                            else:
+                                string_game_modes = None
+
+                            if game_info['genres']:
+                                genres = game_info['genres']
+                                # print(f"genres: {genres}")
+                                string_genres = []
+                                for genre in genres:
+                                    string_genres.append(str(genre))
+                                string_genres = ', '.join(string_genres)
+                                # print(f"string_genres: {string_genres}")
+                            else:
+                                string_genres = None
+
+                            summary = game_info.get('summary')
+                 
+
+                            db_game = crud.get_game_by_id(id)
+
+                            if not db_game:
+                                db_game = crud.create_game(id=id, game_modes=string_game_modes,
+                                                            genres=string_genres, name=game_name, 
+                                                            summary=summary, appid=appid, img_icon_url=img_url, game_url=game_url)
+                                add_and_commit(db_game)
+
+                            is_game_in_user_library = crud.check_for_game_in_user_library(steamid, db_game.name)
+
+                            if not is_game_in_user_library:
+                                add_to_game_library = crud.create_user_library(steamid, db_game.name)
+                                add_and_commit(add_to_game_library)
+
+                            break                           
+                    
+                #     else:
+                #         print("doesn't have both")
+
+
+                # else:
+                #     print(f"has {len(igdb_game_info)} dictionaries")
 
 
         friend_list = helper.get_steam_friend_list(steamid)
@@ -173,6 +233,115 @@ def register_user():
                                                     steamid=friend_steamid, personaname=personaname, 
                                                     avatar=avatar, avatarmedium=avatar_med, profileurl=url)
                         add_and_commit(friend_user)
+                        
+
+                        owned_games = helper.get_steam_owned_games(steamid)
+                        # print(f"owned_games: {owned_games}")
+
+                        if owned_games['response']:
+
+                            for game in owned_games['response']['games']:
+                                appid = game['appid']
+                                # print(f"appid: {appid}")
+                                game_name = game['name']
+                                # print(game_name)
+                                img_hash = game['img_icon_url']
+                                img_url = crud.create_img_url(appid, img_hash)
+                                game_url = crud.create_steam_game_urls(appid, game_name)
+
+                                igdb_game_info = helper.get_igdb_game_by_name(game_name)
+                                    
+                                if len(igdb_game_info) == 1:
+                                    
+                                    for game_info in igdb_game_info:
+                                        id = game_info['id']
+                                        # print(f"id: {id}")
+                                        if game_info.get('game_modes'):
+                                            game_modes = game_info['game_modes']
+                                            # print(f"game_modes: {game_modes}")
+                                            string_game_modes = []
+                                            for mode in game_modes:
+                                                string_game_modes.append(str(mode))
+                                            string_game_modes = ", ".join(string_game_modes)
+                                            # print(f"string_game_modes: {string_game_modes}")
+                                        else:
+                                            string_game_modes = ""
+
+                                        if game_info.get('genres'):
+                                            genres = game_info['genres']
+                                            # print(f"genres: {genres}")
+                                            string_genres = []
+                                            for genre in genres:
+                                                string_genres.append(str(genre))
+                                            string_genres = ', '.join(string_genres)
+                                            # print(f"string_genres: {string_genres}")
+                                        else:
+                                            string_genres = ""
+
+                                        summary = game_info.get('summary', "Seems like the summary on this game is Top Secret!")
+
+                                
+                                    db_game = crud.get_game_by_id(id)
+
+                                    if not db_game:
+                                        db_game = crud.create_game(id=id, game_modes=string_game_modes,
+                                                                    genres=string_genres, name=game_name, 
+                                                                    summary=summary, appid=appid, img_icon_url=img_url, game_url=game_url)
+                                        add_and_commit(db_game)
+
+                                    is_game_in_user_library = crud.check_for_game_in_user_library(steamid, db_game.name)
+
+                                    if not is_game_in_user_library:
+                                        add_to_game_library = crud.create_user_library(steamid, db_game.name)
+                                        add_and_commit(add_to_game_library)
+
+
+                                elif len(igdb_game_info) > 1:
+
+                                    for game_info in igdb_game_info:
+                                        if 'game_modes' in game_info and 'genres' in game_info:
+                                            id = game_info['id']
+                                            # print(f"id: {id}")
+                                            if game_info['game_modes']:
+                                                game_modes = game_info['game_modes']
+                                                # print(f"game_modes: {game_modes}")
+                                                string_game_modes = []
+                                                for mode in game_modes:
+                                                    string_game_modes.append(str(mode))
+                                                string_game_modes = ", ".join(string_game_modes)
+                                                # print(f"string_game_modes: {string_game_modes}")
+                                            else:
+                                                string_game_modes = None
+
+                                            if game_info['genres']:
+                                                genres = game_info['genres']
+                                                # print(f"genres: {genres}")
+                                                string_genres = []
+                                                for genre in genres:
+                                                    string_genres.append(str(genre))
+                                                string_genres = ', '.join(string_genres)
+                                                # print(f"string_genres: {string_genres}")
+                                            else:
+                                                string_genres = None
+
+                                            summary = game_info.get('summary')
+                                
+
+                                            db_game = crud.get_game_by_id(id)
+
+                                            if not db_game:
+                                                db_game = crud.create_game(id=id, game_modes=string_game_modes,
+                                                                            genres=string_genres, name=game_name, 
+                                                                            summary=summary, appid=appid, img_icon_url=img_url, game_url=game_url)
+                                                add_and_commit(db_game)
+
+                                            is_game_in_user_library = crud.check_for_game_in_user_library(steamid, db_game.name)
+
+                                            if not is_game_in_user_library:
+                                                add_to_game_library = crud.create_user_library(steamid, db_game.name)
+                                                add_and_commit(add_to_game_library)
+
+                                            break
 
         
         flash("Account created! Please log in.")
@@ -274,10 +443,10 @@ def add_and_commit(inst):
 
 
 if __name__ == "__main__":
-    os.system('dropdb my_database')
-    os.system('createdb my_database')
+    # os.system('dropdb my_database')
+    # os.system('createdb my_database')
 
     connect_to_db(app)
-    db.create_all()
+    # db.create_all()
     
     app.run(host="0.0.0.0", debug=True, port=6060)
