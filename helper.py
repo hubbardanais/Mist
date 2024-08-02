@@ -18,6 +18,8 @@ def get_steam_player_summaries(steamid):
 
     return player_summary.json()
 
+# print(get_steam_player_summaries(76561199002632683))
+
 
 def get_steam_friend_list(steamid):
     """get steam user's friend list"""
@@ -26,7 +28,7 @@ def get_steam_friend_list(steamid):
 
     return friend_list.json()
 
-# print(get_steam_friend_list(76561198043449106))
+# print(get_steam_friend_list(76561199002632683))
 
 # test = get_steam_friend_list(76561198043449106)
 
@@ -44,7 +46,7 @@ def get_steam_owned_games(steamid):
 
     return owned_games.json()
 
-# print(get_steam_owned_games(76561198043449106))
+# print(get_steam_owned_games(76561199002632683))
 
 # test = get_steam_owned_games(76561198043449106)
 
