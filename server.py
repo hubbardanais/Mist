@@ -72,7 +72,9 @@ def register_user():
 
     if user_email:
         flash("Cannot create an account with that email. Try again.")
-    elif user_steamid:
+    # elif user_steamid:
+    #     flash("Cannot create an account with that SteamID. Try again.")
+    elif user_steamid and user_steamid.password != "temporary": 
         flash("Cannot create an account with that SteamID. Try again.")
     else:
         #User Info:
@@ -83,9 +85,12 @@ def register_user():
             url = info['profileurl']
             avatar = info['avatar']
             avatar_med = info['avatarmedium']
-
-            user = crud.create_user(email, password, steamid, personaname, avatar, avatar_med, url)
-            add_and_commit(user)
+            if user_steamid and user_steamid.password == "temporary":
+                updated_user = crud.update_existing_user(email=email, password=password, steamid=steamid)
+                add_and_commit(updated_user)
+            else:
+                user = crud.create_user(email, password, steamid, personaname, avatar, avatar_med, url)
+                add_and_commit(user)
 
         ################
         # Beginning game creation loop
@@ -109,7 +114,11 @@ def register_user():
 
                 # print(f"igdb_game_info: {igdb_game_info}")
                 # check to see if len(igdb_game_info) > 1 ==> iterate through using while loop ==> check which one has game_modes AND genres keys, once that one found, add the attributes
-                    
+                
+                # check here if igdb_game_info returned None
+                if igdb_game_info == None:
+                    continue
+
                 if len(igdb_game_info) == 1:
                     
                     for game_info in igdb_game_info:
@@ -140,7 +149,7 @@ def register_user():
                         summary = game_info.get('summary', "Seems like the summary on this game is Top Secret!")
 
                 
-                    db_game = crud.get_game_by_id(id)
+                    db_game = crud.get_game_by_name(game_name)
 
                     if not db_game:
                         db_game = crud.create_game(id=id, game_modes=string_game_modes,
@@ -186,12 +195,12 @@ def register_user():
                             summary = game_info.get('summary')
                  
 
-                            db_game = crud.get_game_by_id(id)
+                            db_game = crud.get_game_by_name(game_name)
 
                             if not db_game:
                                 db_game = crud.create_game(id=id, game_modes=string_game_modes,
-                                                            genres=string_genres, name=game_name, 
-                                                            summary=summary, appid=appid, img_icon_url=img_url, game_url=game_url)
+                                                        genres=string_genres, name=game_name, 
+                                                        summary=summary, appid=appid, img_icon_url=img_url, game_url=game_url)
                                 add_and_commit(db_game)
 
                             is_game_in_user_library = crud.check_for_game_in_user_library(steamid, db_game.name)
@@ -250,10 +259,17 @@ def register_user():
                                 f_game_url = crud.create_steam_game_urls(f_appid, f_game_name)
 
                                 friend_igdb_game_info = helper.get_igdb_game_by_name(f_game_name)
-                                    
+
+                                if friend_igdb_game_info == None:
+                                    continue
+
+                                # checking if id is in response, skipping if not in resp
+                                # TODO - if issue persisits, add to other game info checks below
+                                # and friend_game_info.get('id')
                                 if len(friend_igdb_game_info) == 1:
                                     
                                     for friend_game_info in friend_igdb_game_info:
+                                        print(friend_igdb_game_info)
                                         f_id = friend_game_info['id']
                                         # print(f"id: {id}")
                                         if friend_game_info.get('game_modes'):
@@ -281,13 +297,13 @@ def register_user():
                                         f_summary = friend_game_info.get('summary', "Seems like the summary on this game is Top Secret!")
 
                                 
-                                    f_db_game = crud.get_game_by_id(f_id)
+                                    f_db_game = crud.get_game_by_name(f_game_name)
 
                                     if not f_db_game:
                                         f_db_game = crud.create_game(id=f_id, game_modes=f_string_game_modes,
                                                                     genres=f_string_genres, name=f_game_name, 
                                                                     summary=f_summary, appid=f_appid, img_icon_url=f_img_url, game_url=f_game_url)
-                                        add_and_commit(db_game)
+                                        add_and_commit(f_db_game)
                                         print("added new game and committed")
 
                                     f_is_game_in_user_library = crud.check_for_game_in_user_library(friend_steamid, f_db_game.name)
@@ -333,7 +349,8 @@ def register_user():
                                             f_summary = f_game_info.get('summary', "Seems like the summary on this game is Top Secret!")
                                 
 
-                                            f_db_game = crud.get_game_by_id(f_id)
+                                            f_db_game = crud.get_game_by_name(f_game_name) # return the object OR None
+                                            print(f_db_game)
 
                                             if not f_db_game:
                                                 f_db_game = crud.create_game(id=f_id, game_modes=f_string_game_modes,
@@ -449,10 +466,10 @@ def add_and_commit(inst):
 
 
 if __name__ == "__main__":
-    os.system('dropdb my_database')
-    os.system('createdb my_database')
+    # os.system('dropdb my_database')
+    # os.system('createdb my_database')
 
     connect_to_db(app)
-    db.create_all()
+    # db.create_all()
     
     app.run(host="0.0.0.0", debug=True, port=6060)

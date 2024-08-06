@@ -18,7 +18,7 @@ def get_steam_player_summaries(steamid):
 
     return player_summary.json()
 
-# print(get_steam_player_summaries(76561199002632683))
+# print(get_steam_player_summaries(76561199090892473))
 
 
 def get_steam_friend_list(steamid):
@@ -28,7 +28,7 @@ def get_steam_friend_list(steamid):
 
     return friend_list.json()
 
-# print(get_steam_friend_list(76561199002632683))
+# print(get_steam_friend_list(76561197988750660))
 
 # test = get_steam_friend_list(76561198043449106)
 
@@ -65,6 +65,18 @@ def get_igdb_game_by_name(name):
                     **{'headers': {'Client-ID': IGDB_CLIENT_ID, 'Authorization': IGDB_TOKEN},
                        'data': f'fields name, genres, game_modes, summary; where name = "{name}";'})
     
-    return response.json()
+    json_resp = response.json()
 
-# print(get_igdb_game_by_name("Mass Effect Legendary Edition"))
+    if json_resp:
+        if json_resp[0].get('status'): # does this key exist in the returned dict
+            # print(json_resp[0])
+            return
+        else: 
+            return json_resp
+
+print(get_igdb_game_by_name("Ring of Elysium")) #<- Steam
+#Yeah! You Want "Those Games", Right? So Here You Go! Now, Let's See You Clear Them! < - IGDB
+
+# if test[0]['title'] == 'Syntax Error':
+#     print("yes")
+# print(get_igdb_game_by_name("Living In A Brothel"))

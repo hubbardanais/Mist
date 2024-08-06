@@ -23,6 +23,19 @@ def create_user(email, password, steamid, personaname,
     return user
 
 
+def update_existing_user(email, password, steamid):
+    """for temporarily created friend users, update their email
+      and password so they can be active users"""
+    # query for the user with that steam id
+    user = get_user_by_steamid(steamid)
+    user.email = email
+    user.password = password
+    #update the user object
+    # db.session.add(user) #save and commit to the database
+    # db.session.commit()
+    return user
+
+
 def get_user_by_steamid(steamid):
     """return a user by steamid"""
 
@@ -96,6 +109,14 @@ def get_game_by_id(id):
     """return first game in db by id"""
 
     game = Game.query.filter(Game.id == id).first()
+
+    return game
+
+
+def get_game_by_name(name):
+    """return first game in db by name"""
+
+    game = Game.query.filter(Game.name == name).first()
 
     return game
 
