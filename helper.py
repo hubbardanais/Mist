@@ -74,7 +74,7 @@ def get_igdb_game_by_name(name):
         else: 
             return json_resp
 
-print(get_igdb_game_by_name("Ring of Elysium")) #<- Steam
+# print(get_igdb_game_by_name("Ring of Elysium")) #<- Steam
 #Yeah! You Want "Those Games", Right? So Here You Go! Now, Let's See You Clear Them! < - IGDB
 
 # if test[0]['title'] == 'Syntax Error':

@@ -7,3 +7,32 @@
   max-width: 800px;
     max-height: 400px;
 }
+
+body {
+  color: rgb(218, 217, 217);
+  background-color: rgb(27, 40, 56);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  color: rgb(49, 134, 188);
+}
+
+/* 
+    steam logo and nage == 197, 195, 192
+
+    top color == 23, 29, 37
+    unselected nav bar text color == 220, 222, 223
+    selected nav bar test == 26, 159, 255
+    dropdown nav menu color == 61, 68, 80
+    dropdown nav bar text color == 209, 211, 213
+
+    
+
+    background color == 27, 40, 56
+    accent background color == 42, 71, 94
+
+    text on bg is white
+    unselected text on bg by accented color == 49, 134, 188
+
+    /*
