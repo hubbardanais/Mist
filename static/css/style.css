@@ -23,6 +23,16 @@ body {
   /* font-size: 14px; */
 }
 
+.dropdown-menu {
+  color: rgb(209, 211, 213);
+  background-color: rgb(61, 68, 80);
+}
+
+.card-img-top {
+  height: 60px;
+  width: 60px;
+}
+
 .nav-item a {
   color:rgb(220, 222, 223)!important; 
   font-weight: 500;
