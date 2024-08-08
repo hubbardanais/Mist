@@ -18,9 +18,82 @@ body {
   background-color: rgb(23, 29, 37)!important; 
   font-family: "Motiva Sans", Sans-serif;
   font-weight: normal;
-  padding-left: 24vw;
+  padding-left: 25vw;
   margin-bottom: 2rem;
   /* font-size: 14px; */
+}
+
+.login-card {
+  background-color: rgb(24, 26, 33);
+  margin-left: 23rem;
+  padding: 20px 28px;
+}
+
+.login-text {
+  color: rgb(255, 255, 255);
+  margin-top: 2rem;
+  margin-left: 8.7rem;
+  margin-bottom: 0.8rem;
+}
+
+.login-card a {
+  text-decoration: underline;
+  color: rgb(25, 153, 255);
+  margin-left: 7.5rem;
+}
+
+.card-title {
+  color: rgb(225, 225, 225);
+  font-family: "Motiva Sans", Sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  padding-bottom: 2rem;
+  padding-top: 8rem;
+  margin-left: 23rem;
+}
+
+.steamid-login {
+  color: rgb(25, 153, 255);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.login-input {
+  border-radius: 2px;
+  color: #fff;
+  padding: 10px;
+  background-color: #32353c;
+  outline: none;
+  font-size: 15px;
+  grid-area: input;
+  border: 1px solid #32353c;
+  width: 100%;
+  margin-bottom: -50rem;
+}
+
+.password-login {
+  color: rgb(175, 175, 175);
+  font-size: 12px;
+  font-weight: normal;
+  padding-top: 2rem;
+}
+
+.btn-sign-in {
+  background: linear-gradient(90deg, #06BFFF 0%, #2D73FF 100%);
+  border-radius: 2px;
+  border: none;
+  outline: none;
+  padding: 12px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: inherit;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 2.5rem!important;
+  margin-left: 5rem;
+  padding-left: 5rem;
+  padding-right: 5rem;
 }
 
 .dropdown-menu {
