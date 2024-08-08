@@ -3,7 +3,7 @@
     max-height: 400px;
   }
 
-.placeholder {
+.temporary_image {
   max-width: 800px;
     max-height: 400px;
 }
@@ -14,9 +14,78 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.navbar { 
+  background-color: rgb(23, 29, 37)!important; 
+  font-family: "Motiva Sans", Sans-serif;
+  font-weight: normal;
+  padding-left: 30vw;
+  margin-bottom: 2rem;
+  /* font-size: 14px; */
+}
+
+.nav-item a {
+  color:rgb(220, 222, 223)!important; 
+  font-weight: normal;
+  
+}
+
+.left-link {
+  /* padding-top: .25rem; */
+  /* vertical-align: middle; */
+  /* margin-top:  */
+  line-height: 27px;
+  padding-right: 1rem!important;
+  padding-left: 1rem!important;
+}
+
+.navbar-brand {
+  color:rgb(220, 222, 223)!important; 
+  font-size: 35px;
+}
+
+.logo-thumbnail {
+  height: 210px;
+  width: auto;
+  padding: unset;
+  /* border-radius: unset; */
+}
+
+.img-thumbnail {
+  height: 30px;
+  padding: unset;
+  border-radius: unset;
+}
+
+.container-fluid {
+  padding-right: 0!important;
+  padding-left: 0!important;
+}
+
 h1 {
   color: rgb(49, 134, 188);
 }
+
+a {
+  text-decoration: none;
+  color: rgb(218, 217, 217)
+}
+
+#main_navigation a{
+  
+  text-decoration: none;
+  color: white;
+
+}
+
+
+/* div#global_header {
+  background: #171d25;
+  background-position: center top;
+  min-width: 940px;
+  font-family: "Motiva Sans", Sans-serif;
+  font-weight: normal;
+  font-size: 14px; */
+/* } */
 
 /* 
     steam logo and nage == 197, 195, 192

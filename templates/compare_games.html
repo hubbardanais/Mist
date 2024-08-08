@@ -2,28 +2,36 @@
 {% block title %}Games With Friends{% endblock %}
 
 {% block body %}
-<!-- 
-    <br>
-    <p>Add maybe tick boxes to select how many or which friends to compare to</p>
-    <p>Or maybe have a choice between individual friends vs groups</p>
-    <p>A game comparison would go here</p> -->
+
 
     <h3>Select which friends you'd like to find shared games with:</h3>
 
     {% if friends %}
         <form action="/compare_games" method="POST">
+
+        <div class="row">
     {% for friend in friends %}
         
-        <input type="checkbox" id="{{ friend.steamid }}" name="{{ friend.steamid }}" value="{{ friend.personaname }}">
-        <label for="{{ friend.personaname }}"><img class="avatar" src="{{ friend.avatar }}"> {{ friend.personaname }}</label><br>
+        <!-- <input type="checkbox" id="{{ friend.steamid }}" name="{{ friend.steamid }}" value="{{ friend.personaname }}"> -->
+        <!-- <label for="{{ friend.personaname }}"><img class="avatar" src="{{ friend.avatar }}"> {{ friend.personaname }}</label><br> -->
             <!-- <p><img class="avatar" src="{{ friend.avatar }}"> {{ friend.personaname }}</p> -->
+        <div class="col-3">
+            <div class="card">
+                <div class="card-body">
+                    <input type="checkbox" id="{{ friend.steamid }}" name="{{ friend.steamid }}" value="{{ friend.personaname }}">
+                    <label for="{{ friend.personaname }}"><img class="avatar" src="{{ friend.avatar }}"> {{ friend.personaname }}</label><br>
+                </div>
+            </div>
+        </div>
             
     {% endfor %}
+        </div>
         <input type="submit" value="Submit">
         </form>
     {% else %}
         <p>Oops! I can't find anyone to compare games with!</p>
 
     {% endif %}
+
 
 {% endblock %}
