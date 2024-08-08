@@ -18,14 +18,14 @@ body {
   background-color: rgb(23, 29, 37)!important; 
   font-family: "Motiva Sans", Sans-serif;
   font-weight: normal;
-  padding-left: 30vw;
+  padding-left: 24vw;
   margin-bottom: 2rem;
   /* font-size: 14px; */
 }
 
 .nav-item a {
   color:rgb(220, 222, 223)!important; 
-  font-weight: normal;
+  font-weight: 500;
   
 }
 
@@ -39,11 +39,15 @@ body {
 }
 
 .navbar-brand {
+  margin-top: -.5rem;
   color:rgb(220, 222, 223)!important; 
   font-size: 35px;
+  padding-right: 3rem;
 }
 
 .logo-thumbnail {
+  margin-top: .5rem;
+  margin-right: -1.5rem;
   height: 210px;
   width: auto;
   padding: unset;
@@ -63,14 +67,47 @@ body {
 
 h1 {
   color: rgb(49, 134, 188);
+  margin-bottom: 2rem;
+}
+
+.btn {
+  margin-top: 2rem;
+  background-color: rgb(49, 134, 188);
+  border-color: rgb(49, 134, 188);
+}
+
+.basic-text {
+  font-size: 18px;
+}
+
+.compare-card {
+  background-color: rgb(42, 71, 94);
+  margin-bottom: 1rem;
+}
+
+.compare-card label {
+  color: rgb(153, 193, 220)!important;
+}
+
+.friend-card {
+  padding-top: 1rem;
+  margin-bottom: 3rem;
+  background-color: rgb(42, 71, 94);
+}
+
+.friend-card a {
+  color: rgb(153, 193, 220);
+  font-weight: 600!important;
+  font-size: 18px;
+  margin-left: 1rem;
 }
 
 a {
   text-decoration: none;
-  color: rgb(218, 217, 217)
+  color: rgb(218, 217, 217);
 }
 
-#main_navigation a{
+#main_navigation a {
   
   text-decoration: none;
   color: white;

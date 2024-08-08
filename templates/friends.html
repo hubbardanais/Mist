@@ -5,12 +5,20 @@
     <h1>{{ session['personaname'] }}'s Friends</h1>
 
     {% if friends %}
+
+    <div class="row">
     {% for friend in friends %}
-        
-            <img class="avatar" src="{{ friend.avatarmedium }}">
-            <a href="/user/{{ friend.personaname }}">{{ friend.personaname }}</a><br><br>
+        <div class="col-3">
+            <div class="card friend-card">
+                <div class="card-body">
+                    <img class="avatar" src="{{ friend.avatarmedium }}">
+                    <a href="/user/{{ friend.personaname }}">{{ friend.personaname }}</a><br><br>
+                </div>
+            </div>
+        </div>
         
     {% endfor %}
+    </div>
 
     {% else %}
         <p>Oh uh, looks like we can't access your friends list!<br>

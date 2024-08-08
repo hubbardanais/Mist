@@ -3,8 +3,8 @@
 
 {% block body %}
 
-
-    <h3>Select which friends you'd like to find shared games with:</h3>
+    <h1>Find Shared Games</h1>
+    <p class="basic-text">Select which friends you'd like to find shared games with:</p>
 
     {% if friends %}
         <form action="/compare_games" method="POST">
@@ -16,7 +16,7 @@
         <!-- <label for="{{ friend.personaname }}"><img class="avatar" src="{{ friend.avatar }}"> {{ friend.personaname }}</label><br> -->
             <!-- <p><img class="avatar" src="{{ friend.avatar }}"> {{ friend.personaname }}</p> -->
         <div class="col-3">
-            <div class="card">
+            <div class="card compare-card">
                 <div class="card-body">
                     <input type="checkbox" id="{{ friend.steamid }}" name="{{ friend.steamid }}" value="{{ friend.personaname }}">
                     <label for="{{ friend.personaname }}"><img class="avatar" src="{{ friend.avatar }}"> {{ friend.personaname }}</label><br>
@@ -26,7 +26,7 @@
             
     {% endfor %}
         </div>
-        <input type="submit" value="Submit">
+        <input class="btn btn-primary" type="submit" value="Submit">
         </form>
     {% else %}
         <p>Oops! I can't find anyone to compare games with!</p>
