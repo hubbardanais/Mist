@@ -3,35 +3,16 @@
 
 {% block body %}
 
-    <!-- <h2>Log In</h2>
-    <form action="/login" method="POST">
-      <p>
-        SteamID <input type="text" name="steamid">
-      </p>
-
-      <p>
-        Password <input type="password" name="password">
-      </p>
-
-      <p>
-        <input type="submit">
-      </p>
-
-      <p>
-        Don't have an account? 
-        <a href="/create_account" >Click here to sign up</a>
-      </p>
-    </form> -->
     <h5 class="card-title">Sign In</h5>
 
     <div class="card login-card" style="width: 30rem; height: 25.5rem;">
       <div class="card-body">
           <form action="/login" method="POST">
             <label class="steamid-login">SteamID</label><br>
-              <input type="text" name="steamid" class="login-input">
+              <input type="text" name="steamid" class="login-input" required>
       
             <label class="password-login">PASSWORD</label><br>
-              <input type="password" name="password" class="login-input"><br>
+              <input type="password" name="password" class="login-input" required><br>
 
             <input class="btn btn-sign-in" type="submit" value="Sign in">
             
